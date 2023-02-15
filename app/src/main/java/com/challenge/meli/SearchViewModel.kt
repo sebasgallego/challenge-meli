@@ -7,7 +7,7 @@ import com.challenge.meli.product.model.ProductResponse
 
 class SearchViewModel : ViewModel() {
     // TODO: Implement the ViewModel
-
+    // Expose screen UI product
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
 

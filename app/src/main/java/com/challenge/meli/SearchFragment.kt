@@ -4,16 +4,20 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.product.model.Product
+import kotlinx.coroutines.launch
 import java.util.*
 
 class SearchFragment : Fragment() {
@@ -35,7 +39,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater)
-        processTextSearch()
+        textSearch()
         initRecyclerView()
         return binding.root
     }
@@ -55,6 +59,7 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+
     }
 
     /**
@@ -68,7 +73,10 @@ class SearchFragment : Fragment() {
         binding.recyclerView.adapter = adapterDate
     }
 
-    private fun processTextSearch() {
+    private fun textSearch() {
+        binding.imageViewClear.setOnClickListener {
+            binding.editTextSearch.setText("")
+        }
         binding.editTextSearch.addTextChangedListener(object : TextWatcher {
 
             var isTyping = false

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.challenge.meli.core.RetrofitHelper
 import com.challenge.meli.product.model.ProductResponse
 import com.challenge.meli.product.network.ProductApiClient
+import kotlinx.coroutines.sync.Mutex
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
