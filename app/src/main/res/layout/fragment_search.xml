@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/small_dimen">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/small_dimen"
+                        android:src="?android:attr/actionModeWebSearchDrawable" />
+
+                    <EditText
+                        android:id="@+id/editTextTextPersonName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/white"
+                        android:paddingLeft="@dimen/medium_dimen"
+                        android:ems="10"
+                        android:textSize="@dimen/edit_size"
+                        android:hint="@string/lbl_search"
+                        android:inputType="textPersonName" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/small_dimen"
+                        android:src="@drawable/ic_close" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- basic dimens -->
+    <dimen name="small_dimen">4dp</dimen>
+    <dimen name="medium_dimen">8dp</dimen>
+    <dimen name="large_dimen">16dp</dimen>
+    <dimen name="x_large_dimen">24dp</dimen>
+    <!-- Size font -->
+    <dimen name="size_title">17sp</dimen>
+    <dimen name="sub_title_size">12sp</dimen>
+    <dimen name="edit_size">14sp</dimen>
+    <dimen name="textView_size">14sp</dimen>
+    <dimen name="btn_size">15sp</dimen>
+</resources>
