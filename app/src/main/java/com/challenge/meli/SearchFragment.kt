@@ -8,17 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.adapter.SearchAdapter
+import com.challenge.meli.product.adapter.ProductAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.product.model.Product
-import kotlinx.coroutines.launch
+import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import java.util.*
+
 
 class SearchFragment : Fragment() {
 
@@ -71,6 +70,21 @@ class SearchFragment : Fragment() {
         adapterDate!!.newItems(productList)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapterDate
+        binding.recyclerView.addOnItemTouchListener(
+            RecyclerItemClickListener(
+                context,
+                binding.recyclerView,
+                object : RecyclerItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        // do whatever
+                        view.findNavController().navigate(R.id.productFragment)
+                    }
+
+                    override fun onLongItemClick(view: View, position: Int) {
+                        // do whatever
+                    }
+                })
+        )
     }
 
     private fun textSearch() {
@@ -81,7 +95,7 @@ class SearchFragment : Fragment() {
 
             var isTyping = false
             private var timer: Timer = Timer()
-            private val DELAY: Long = 650 // milliseconds
+            private val DELAY: Long = 500 // milliseconds
 
             override fun afterTextChanged(s: Editable) {
                 if (!isTyping) {

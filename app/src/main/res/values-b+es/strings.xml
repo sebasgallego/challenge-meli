@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">My Challenge</string>
-    <string name="lbl_search">Search in Mercado Libre</string>
+    <string name="lbl_search">Buscar en Mercado Libre</string>
     <string name="empty_data">No se encontro ningun producto</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.challenge.meli.adapter
+package com.challenge.meli.product.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.challenge.meli.R
 import com.challenge.meli.product.model.Product
 
-class SearchAdapter(
-    private val context: Context
-) : RecyclerView.Adapter<SearchViewHolder>() {
+class ProductAdapter(
+    private val context: Context,
+) : RecyclerView.Adapter<ProductViewHolder>() {
 
     private var itemList: MutableList<Product> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return SearchViewHolder(
+        return ProductViewHolder(
             layoutInflater.inflate(
                 R.layout.list_item_search,
                 parent,
@@ -28,7 +28,7 @@ class SearchAdapter(
     /**
      * on Bind ViewHolder
      */
-    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val item = itemList[position]
         holder.bind(item, this.context)
     }
