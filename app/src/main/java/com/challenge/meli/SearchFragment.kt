@@ -93,6 +93,9 @@ class SearchFragment : Fragment() {
         )
     }
 
+    /**
+     * init text search
+     */
     private fun textSearch() {
         binding.imageViewClear.setOnClickListener {
             binding.editTextSearch.setText("")

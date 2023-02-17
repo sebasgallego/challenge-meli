@@ -3,7 +3,6 @@ package com.challenge.meli
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.product.adapter.ProductAdapter
 import com.challenge.meli.product.model.Product
@@ -60,9 +58,14 @@ class ProductFragment : Fragment() {
                     productList.addAll(dataResponse.results)
                     adapterDate!!.newItems(productList)
                     updateUI()
+                    binding.contentRecyclerView.rvGroup.success()
+                }else{
+                    val emptyData: String = getString(R.string.empty_data)
+                    binding.contentRecyclerView.rvGroup.empty(emptyData)
                 }
+            }else{
+                binding.contentRecyclerView.rvGroup.retry()
             }
-            binding.contentRecyclerView.rvGroup.success()
         }
     }
 

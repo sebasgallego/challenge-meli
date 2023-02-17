@@ -42,6 +42,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
                         android:ems="10"
+                        android:autofillHints="username"
                         android:hint="@string/lbl_search"
                         android:inputType="textPersonName"
                         android:textSize="@dimen/edit_size" />

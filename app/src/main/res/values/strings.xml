@@ -4,4 +4,6 @@
     <string name="empty_data">No product was found</string>
     <string name="lbl_results">results</string>
     <string name="lbl_available">available</string>
+    <string name="load_failed">Load failed</string>
+    <string name="lbl_retry">Retry</string>
 </resources>

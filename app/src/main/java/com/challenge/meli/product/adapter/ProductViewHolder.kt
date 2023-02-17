@@ -17,7 +17,7 @@ class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     @SuppressLint("SetTextI18n")
     fun bind(item: Product, context: Context) {
         Glide.with(context).load(item.thumbnail).centerInside().into(binding.imageViewProduct)
-        binding.textViewTitle.text = item.title
+        binding.textViewTitle.text = item.title.take(60)
         binding.textViewPrice.text = "$ ${NumberHelper().parseAmountToCOP(item.price)}"
         if (item.installments != null) binding.textViewInstallments.text =
             "${item.installments!!.quantity}x $${NumberHelper().parseAmountToCOP(item.installments!!.amount)}"
