@@ -1,12 +1,14 @@
 package com.challenge.meli
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -77,7 +79,11 @@ class SearchFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        view.findNavController().navigate(R.id.productFragment)
+                        binding.editTextSearch.setText("")
+                        val bundle = bundleOf(
+                            Intent.EXTRA_TEXT to productList[position].title
+                        )
+                        view.findNavController().navigate(R.id.productFragment, bundle)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {

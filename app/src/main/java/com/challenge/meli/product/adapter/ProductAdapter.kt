@@ -18,7 +18,7 @@ class ProductAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         return ProductViewHolder(
             layoutInflater.inflate(
-                R.layout.list_item_search,
+                R.layout.list_item_product,
                 parent,
                 false
             )

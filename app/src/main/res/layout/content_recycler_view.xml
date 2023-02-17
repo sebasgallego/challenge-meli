@@ -4,94 +4,86 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
+        android:id="@+id/rv_group"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
-            android:id="@+id/rv_group"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/layout_empty"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_20"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:text="@string/empty_data"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_title" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_20"
-                    android:text="@string/empty_data"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_title" />
+        <LinearLayout
+            android:id="@+id/layout_retry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/size_20"
+            android:visibility="gone">
 
-            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_warning" />
 
-            <LinearLayout
-                android:id="@+id/layout_retry"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_20"
+                android:text="load_failed"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_title" />
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="@dimen/size_20"
+                android:background="@drawable/ic_rounded_corner"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/size_20"
-                android:visibility="gone">
+                android:text="@string/retry"
+                android:textColor="@color/white" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_warning" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_20"
-                    android:text="load_failed"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_title" />
+        <LinearLayout
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="36dp"
-                    android:layout_marginTop="@dimen/size_20"
-                    android:background="@drawable/ic_rounded_corner_green"
-                    android:gravity="center"
-                    android:text="@string/retry"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/progress_bar"
+            <ProgressBar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content" />
 
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup>
-
-    </LinearLayout>
+    </com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup>
 
 </LinearLayout>
