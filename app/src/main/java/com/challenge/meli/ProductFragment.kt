@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.product.adapter.ProductAdapter
 import com.challenge.meli.product.model.Product
+import com.challenge.meli.utils.GlobalsVar.EXTRA_PRODUCT_OBJECT
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 
 
@@ -48,7 +50,6 @@ class ProductFragment : Fragment() {
         // Get products
         getExtraTitle()?.let {
             viewModel.getProducts(it)
-            binding.contentRecyclerView.rvGroup.loading()
         }
         //Observe get list products
         viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
@@ -74,6 +75,7 @@ class ProductFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
+        //binding.contentRecyclerView.rvGroup.loading()
         adapterDate = ProductAdapter(requireActivity())
         adapterDate!!.newItems(productList)
         binding.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -85,10 +87,8 @@ class ProductFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        val bundle = bundleOf(
-                            Intent.EXTRA_TEXT to productList[position].title
-                        )
-                        //view.findNavController().navigate(R.id.productFragment, bundle)
+                        val bundle = bundleOf(EXTRA_PRODUCT_OBJECT to productList[position])
+                        view.findNavController().navigate(R.id.detailFragment, bundle)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {

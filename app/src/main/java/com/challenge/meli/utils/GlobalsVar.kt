@@ -19,4 +19,9 @@ object GlobalsVar {
     const val EN_US = "en-US"
     const val ES_CO = "es-CO"
 
+    /**********************************************************************************************
+     * PUT EXTRA
+     **********************************************************************************************/
+    const val EXTRA_PRODUCT_OBJECT = "EXTRA_PRODUCT_OBJECT"
+
 }
