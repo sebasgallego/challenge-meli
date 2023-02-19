@@ -7,4 +7,6 @@
     <string name="lbl_available">disponibles</string>
     <string name="load_failed">Carga fallida</string>
     <string name="lbl_retry">Reintentar</string>
+    <string name="error_internet">No se pudo establecer una conexión a Internet, inténtelo de nuevo</string>
+    <string name="error_server">Parece que algo salio mal, estamos trabajando para solucionarlo</string>
 </resources>

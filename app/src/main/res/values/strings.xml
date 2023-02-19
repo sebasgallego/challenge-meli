@@ -7,4 +7,6 @@
     <string name="lbl_available">available</string>
     <string name="load_failed">Load failed</string>
     <string name="lbl_retry">Retry</string>
+    <string name="error_internet">Failed to establish an internet connection please try again</string>
+    <string name="error_server">It seems that something went wrong, we are working to fix it</string>
 </resources>

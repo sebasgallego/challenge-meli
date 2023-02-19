@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.product.model.Product
+import com.challenge.meli.utils.LogHelper
+import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import timber.log.Timber
 import java.util.*
@@ -50,6 +52,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         editTextSearch()
+        setOnClickClearEditTextSearch()
         initRecyclerView()
         setupObservers()
     }
@@ -65,7 +68,7 @@ class SearchFragment : Fragment() {
     private fun setupObservers() {
 
         //Observe get list products
-        viewModel.getProductsResponseLiveData()!!.observe(viewLifecycleOwner) { dataResponse ->
+        viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
             if (dataResponse != null) {
                 if (dataResponse.results.size > 0) {
                     productList.clear()
@@ -76,9 +79,9 @@ class SearchFragment : Fragment() {
         }
 
         //Observe error msg when get list products
-        viewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { msgError ->
-            Timber.e("80:$msgError")
-            Toast.makeText(requireContext(), msgError.toString(), Toast.LENGTH_SHORT).show()
+        viewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { responseError ->
+            LogHelper().saveLogError(errorResponse = responseError!!)
+            ViewHelper(requireActivity()).showMsgError(responseError)
         }
 
     }
@@ -113,6 +116,15 @@ class SearchFragment : Fragment() {
                     }
                 })
         )
+    }
+
+    /**
+     * init text search
+     */
+    private fun setOnClickClearEditTextSearch() {
+        binding.imageViewClear.setOnClickListener {
+            binding.editTextSearch.setText("")
+        }
     }
 
     /**

@@ -71,8 +71,8 @@ class ProductFragment : Fragment() {
         }
 
         //Observe error msg when get list products
-        productViewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { msgError ->
-            binding.contentRecyclerView.rvGroup.empty(msgError!!)
+        productViewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { responseError ->
+            binding.contentRecyclerView.rvGroup.empty(responseError!!.message)
         }
 
         productViewModel.getNameSelect()?.let { productViewModel.getProducts(it) }
