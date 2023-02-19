@@ -5,7 +5,7 @@ object GlobalsVar {
     /**********************************************************************************************
      * Request Url
      **********************************************************************************************/
-    const val baseURL: String = "https://api.mercadolibre.com/"
+    const val HOST_API: String = "https://api.mercadolibre.com/"
 
     /*
      * GET

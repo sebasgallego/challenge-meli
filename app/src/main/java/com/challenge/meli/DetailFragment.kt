@@ -29,12 +29,13 @@ class DetailFragment : Fragment() {
             val p = requireActivity().intent.getSerializableExtra(EXTRA_PRODUCT_OBJECT) as Product? //Obtaining data
             Log.e("DEBUG",p!!.title)
         }*/
+
         return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         // TODO: Use the ViewModel
     }
 

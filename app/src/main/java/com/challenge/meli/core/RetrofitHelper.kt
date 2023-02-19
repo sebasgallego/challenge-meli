@@ -1,6 +1,6 @@
 package com.challenge.meli.core
 
-import com.challenge.meli.utils.GlobalsVar.baseURL
+import com.challenge.meli.utils.GlobalsVar.HOST_API
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +19,7 @@ class RetrofitHelper {
             .build()
         return Retrofit.Builder()
             .client(client)
-            .baseUrl(baseURL)
+            .baseUrl(HOST_API)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

@@ -1,31 +1,24 @@
 package com.challenge.meli
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.adapter.SearchAdapter
-import com.challenge.meli.product.adapter.ProductAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.product.model.Product
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import java.util.*
-
 
 class SearchFragment : Fragment() {
 
@@ -34,36 +27,35 @@ class SearchFragment : Fragment() {
     }
 
     //View
-    private lateinit var binding: FragmentSearchBinding
-    private lateinit var viewModel: SearchViewModel
+    private var _binding: FragmentSearchBinding? = null
+    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
+    private val productViewModel: ProductViewModel by activityViewModels()
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     //List view
     private var productList = mutableListOf<Product>()
     private var adapterDate: SearchAdapter? = null
 
-    private var navController: NavController? = null
-    private var myContext: FragmentActivity? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater)
-        initNavController()
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         textSearch()
         initRecyclerView()
-        Log.e("DEBUG", "onCreateView")
-        return binding.root
+        return root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Log.e("DEBUG", "onActivityCreated")
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-        viewModel.initRepository()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         // TODO: Use the ViewModel
         //Observe get list products
-        viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
+        productViewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
             if (dataResponse != null) {
                 if (dataResponse.results.size > 0) {
                     productList.clear()
@@ -74,19 +66,13 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onAttach(activity: Activity) {
-        myContext = activity as FragmentActivity
-        super.onAttach(activity)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    /**
-     * init Nav Controller
-     */
-    private fun initNavController() {
-        val fragManager: FragmentManager = myContext!!.supportFragmentManager
-        val navHostFragment =
-            fragManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
+    fun goToNextScreen() {
+        findNavController().navigate(R.id.action_searchFragment_to_productFragment)
     }
 
     /**
@@ -106,10 +92,8 @@ class SearchFragment : Fragment() {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
                         binding.editTextSearch.setText("")
-                        val bundle = bundleOf(
-                            Intent.EXTRA_TEXT to productList[position].title
-                        )
-                        navController!!.navigate(R.id.productFragment, bundle)
+                        productViewModel.setNameSelect(productList[position].title)
+                        goToNextScreen()
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {
@@ -130,7 +114,7 @@ class SearchFragment : Fragment() {
 
             var isTyping = false
             private var timer: Timer = Timer()
-            private val DELAY: Long = 500 // milliseconds
+            private val DELAY: Long = 250 // milliseconds
 
             override fun afterTextChanged(s: Editable) {
                 if (!isTyping) {
@@ -144,7 +128,7 @@ class SearchFragment : Fragment() {
                             isTyping = false
                             val str = s.toString().trim()
                             if (str.length > 2) {
-                                viewModel.getProducts(str)
+                                productViewModel.getProducts(str)
                             }
                         }
                     },

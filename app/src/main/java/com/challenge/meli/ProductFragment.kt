@@ -1,32 +1,32 @@
 package com.challenge.meli
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.product.adapter.ProductAdapter
 import com.challenge.meli.product.model.Product
-import com.challenge.meli.utils.GlobalsVar.EXTRA_PRODUCT_OBJECT
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 
 
 class ProductFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ProductFragment()
-    }
+    // Binding object instance corresponding to the fragment_product.xml layout
+    // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
+    // when the view hierarchy is attached to the fragment.
+    private var _binding: FragmentProductBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-    //View
-    private lateinit var binding: FragmentProductBinding
-    private lateinit var viewModel: ProductViewModel
+    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
+    private val productViewModel: ProductViewModel by activityViewModels()
 
     //List view
     private var productList = mutableListOf<Product>()
@@ -36,38 +36,44 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProductBinding.inflate(inflater)
+        _binding = FragmentProductBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         initRecyclerView()
-        return binding.root
+        return root
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-        viewModel.initRepository()
-        // TODO: Use the ViewModel
-        // Get products
-        getExtraTitle()?.let {
-            viewModel.getProducts(it)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = productViewModel
+            productFragment = this@ProductFragment
         }
+
+        // TODO: Use the ViewModel
         //Observe get list products
-        viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
+        productViewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
             if (dataResponse != null) {
                 if (dataResponse.results.size > 0) {
                     productList.clear()
                     productList.addAll(dataResponse.results)
                     adapterDate!!.newItems(productList)
-                    updateUI()
-                    binding.contentRecyclerView.rvGroup.success()
-                }else{
+                    productViewModel.setSizeProducts(productList.size)
+                   // binding.contentRecyclerView.rvGroup.success()
+                } else {
                     val emptyData: String = getString(R.string.empty_data)
                     binding.contentRecyclerView.rvGroup.empty(emptyData)
                 }
-            }else{
+            } else {
                 binding.contentRecyclerView.rvGroup.retry()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     /**
@@ -75,7 +81,6 @@ class ProductFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
-        //binding.contentRecyclerView.rvGroup.loading()
         adapterDate = ProductAdapter(requireActivity())
         adapterDate!!.newItems(productList)
         binding.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -87,8 +92,7 @@ class ProductFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        val bundle = bundleOf(EXTRA_PRODUCT_OBJECT to productList[position])
-                        view.findNavController().navigate(R.id.detailFragment, bundle)
+                        goToNextScreen()
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {
@@ -98,13 +102,8 @@ class ProductFragment : Fragment() {
         )
     }
 
-    private fun getExtraTitle(): String? {
-        return requireArguments().getString(Intent.EXTRA_TEXT)
-    }
-
-    private fun updateUI(){
-        val lblResult: String = getString(R.string.lbl_results)
-        binding.textViewSize.text = "${productList.size} $lblResult"
+    fun goToNextScreen() {
+        findNavController().navigate(R.id.action_productFragment_to_detailFragment)
     }
 
 }
