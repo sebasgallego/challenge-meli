@@ -11,9 +11,7 @@ class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ListItemSearchBinding.bind(view)
 
     fun bind(item: Product, context: Context) {
-        Glide.with(context).load(item.thumbnail)
-            .circleCrop()
-            .into(binding.imageViewProduct)
+        Glide.with(context).load(item.thumbnail).circleCrop().into(binding.imageViewProduct)
         binding.textViewTitle.text = item.title
     }
 

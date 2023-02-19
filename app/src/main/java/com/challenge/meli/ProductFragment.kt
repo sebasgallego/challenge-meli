@@ -69,6 +69,14 @@ class ProductFragment : Fragment() {
                 binding.contentRecyclerView.rvGroup.retry()
             }
         }
+
+        //Observe error msg when get list products
+        productViewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { msgError ->
+            binding.contentRecyclerView.rvGroup.empty(msgError!!)
+        }
+
+        productViewModel.getNameSelect()?.let { productViewModel.getProducts(it) }
+
     }
 
     override fun onDestroyView() {

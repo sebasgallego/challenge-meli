@@ -10,14 +10,14 @@ object GlobalsVar {
     /*
      * GET
      */
-    const val GET_PRODUCTS = "sites/MCO/search"
+    const val GET_PRODUCTS = "sites/MCO/searchs"
 
     /**********************************************************************************************
-     * APP configuration
+     * HTTP ERROR
      **********************************************************************************************/
-    var appLanguage = "en_US"
-    const val EN_US = "en-US"
-    const val ES_CO = "es-CO"
+    const val SUCCESS = 200
+    const val FAILURE = 0
+
 
     /**********************************************************************************************
      * PUT EXTRA

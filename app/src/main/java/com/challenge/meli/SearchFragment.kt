@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,18 +19,16 @@ import com.challenge.meli.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.product.model.Product
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
+import timber.log.Timber
 import java.util.*
 
 class SearchFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
-
     //View
     private var _binding: FragmentSearchBinding? = null
-    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
-    private val productViewModel: ProductViewModel by activityViewModels()
+
+    // Use the 'by activityViewModels()' for all fragments
+    private lateinit var viewModel: SearchViewModel
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -44,18 +43,29 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        textSearch()
-        initRecyclerView()
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        editTextSearch()
+        initRecyclerView()
+        setupObservers()
+    }
 
-        // TODO: Use the ViewModel
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    /**
+     * Observe get list products
+     */
+    private fun setupObservers() {
+
         //Observe get list products
-        productViewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
+        viewModel.getProductsResponseLiveData()!!.observe(viewLifecycleOwner) { dataResponse ->
             if (dataResponse != null) {
                 if (dataResponse.results.size > 0) {
                     productList.clear()
@@ -64,15 +74,18 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+
+        //Observe error msg when get list products
+        viewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { msgError ->
+            Timber.e("80:$msgError")
+            Toast.makeText(requireContext(), msgError.toString(), Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    fun goToNextScreen() {
-        findNavController().navigate(R.id.action_searchFragment_to_productFragment)
+    fun goToNextScreen(value: String) {
+        val bundle = bundleOf(Intent.EXTRA_TEXT to value)
+        findNavController().navigate(R.id.action_searchFragment_to_productFragment, bundle)
     }
 
     /**
@@ -92,8 +105,7 @@ class SearchFragment : Fragment() {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
                         binding.editTextSearch.setText("")
-                        productViewModel.setNameSelect(productList[position].title)
-                        goToNextScreen()
+                        goToNextScreen(productList[position].title)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {
@@ -106,10 +118,12 @@ class SearchFragment : Fragment() {
     /**
      * init text search
      */
-    private fun textSearch() {
+    private fun editTextSearch() {
+
         binding.imageViewClear.setOnClickListener {
             binding.editTextSearch.setText("")
         }
+
         binding.editTextSearch.addTextChangedListener(object : TextWatcher {
 
             var isTyping = false
@@ -128,7 +142,7 @@ class SearchFragment : Fragment() {
                             isTyping = false
                             val str = s.toString().trim()
                             if (str.length > 2) {
-                                productViewModel.getProducts(str)
+                                viewModel.getProducts(str)
                             }
                         }
                     },

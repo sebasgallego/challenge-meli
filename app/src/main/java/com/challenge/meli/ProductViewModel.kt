@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.challenge.meli.product.ProductRepository
+import com.challenge.meli.product.model.ErrorResponse
 import com.challenge.meli.product.model.ProductResponse
 
 class ProductViewModel : ViewModel() {
@@ -12,6 +13,7 @@ class ProductViewModel : ViewModel() {
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
+    private var errorLiveData: LiveData<ErrorResponse?>? = null
     // Quantity of cupcakes in this order
     private val _sizeProducts = MutableLiveData<Int>()
     val sizeProducts: LiveData<Int> = _sizeProducts
@@ -23,22 +25,22 @@ class ProductViewModel : ViewModel() {
     init {
         productRepository = ProductRepository()
         productLiveData = productRepository!!.getMutableLiveData()
+        errorLiveData = productRepository!!.getErrorMutableLiveData()
         defaultValues()
-        getProducts(_nameProduct.value.toString())
     }
 
     /**
-     * Set default values for size products.
+     * set name selected
      */
       fun setNameSelect(nameProduct: String) {
         _nameProduct.value = nameProduct
     }
 
     /**
-     * Set default values for size products.
+     * get name selected
      */
-    private fun defaultValues() {
-        _sizeProducts.value = 0
+    fun getNameSelect(): String? {
+        return _nameProduct.value
     }
 
     /**
@@ -46,6 +48,13 @@ class ProductViewModel : ViewModel() {
      */
     fun setSizeProducts(size: Int) {
         _sizeProducts.value = size
+    }
+
+    /**
+     * Set default values for size products.
+     */
+    private fun defaultValues() {
+        _sizeProducts.value = 0
     }
 
     /**
@@ -60,6 +69,13 @@ class ProductViewModel : ViewModel() {
      */
     fun getProductsResponseLiveData(): LiveData<ProductResponse?>? {
         return productLiveData
+    }
+
+    /**
+     * get request error Response LiveData
+     */
+    fun getErrorResponseLiveData(): LiveData<ErrorResponse?>? {
+        return errorLiveData
     }
 
 }

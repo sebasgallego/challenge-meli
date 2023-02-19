@@ -1,8 +1,10 @@
 package com.challenge.meli
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.challenge.meli.product.ProductRepository
+import com.challenge.meli.product.model.ErrorResponse
 import com.challenge.meli.product.model.ProductResponse
 
 class SearchViewModel : ViewModel() {
@@ -10,13 +12,15 @@ class SearchViewModel : ViewModel() {
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
+    private var errorLiveData: LiveData<ErrorResponse?>? = null
 
     /**
      * init Repository
      */
-    fun initRepository() {
+    init {
         productRepository = ProductRepository()
         productLiveData = productRepository!!.getMutableLiveData()
+        errorLiveData = productRepository!!.getErrorMutableLiveData()
     }
 
     /**
@@ -33,4 +37,10 @@ class SearchViewModel : ViewModel() {
         return productLiveData
     }
 
+    /**
+     * get request error Response LiveData
+     */
+    fun getErrorResponseLiveData(): LiveData<ErrorResponse?>? {
+        return errorLiveData
+    }
 }
