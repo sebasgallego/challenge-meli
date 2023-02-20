@@ -1,4 +1,4 @@
-package com.challenge.meli
+package com.challenge.meli.ui.detail
 
 import androidx.lifecycle.ViewModel
 

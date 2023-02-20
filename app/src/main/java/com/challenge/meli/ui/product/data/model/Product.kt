@@ -1,4 +1,4 @@
-package com.challenge.meli.product.model
+package com.challenge.meli.ui.product.data.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

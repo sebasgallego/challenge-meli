@@ -1,15 +1,10 @@
 package com.challenge.meli.utils
 
 import android.app.Activity
-import android.content.Context
 import android.widget.Toast
-import androidx.navigation.NavController
 import com.challenge.meli.R
-import com.challenge.meli.product.model.ErrorResponse
+import com.challenge.meli.ui.product.data.model.ErrorResponse
 import com.challenge.meli.utils.GlobalsVar.FAILURE
-import com.challenge.meli.utils.GlobalsVar.SUCCESS
-import com.google.android.material.appbar.MaterialToolbar
-import timber.log.Timber
 
 class ViewHelper(activity: Activity) {
 

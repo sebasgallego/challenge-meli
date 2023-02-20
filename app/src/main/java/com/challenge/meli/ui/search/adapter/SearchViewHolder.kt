@@ -1,10 +1,10 @@
-package com.challenge.meli.adapter
+package com.challenge.meli.ui.search.adapter
 
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.challenge.meli.product.model.Product
+import com.challenge.meli.ui.product.data.model.Product
 import com.challenge.meli.databinding.ListItemSearchBinding
 
 class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {

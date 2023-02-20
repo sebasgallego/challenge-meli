@@ -1,4 +1,4 @@
-package com.challenge.meli.product.model
+package com.challenge.meli.ui.product.data.model
 
 data class ErrorResponse(
     var message: String,

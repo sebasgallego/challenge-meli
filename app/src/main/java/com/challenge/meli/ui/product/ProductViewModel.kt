@@ -1,12 +1,11 @@
-package com.challenge.meli
+package com.challenge.meli.ui.product
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.challenge.meli.product.ProductRepository
-import com.challenge.meli.product.model.ErrorResponse
-import com.challenge.meli.product.model.ProductResponse
+import com.challenge.meli.ui.product.data.ProductRepository
+import com.challenge.meli.ui.product.data.model.ErrorResponse
+import com.challenge.meli.ui.product.data.model.ProductResponse
 
 class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel

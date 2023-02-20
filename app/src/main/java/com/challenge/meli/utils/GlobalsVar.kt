@@ -10,7 +10,7 @@ object GlobalsVar {
     /*
      * GET
      */
-    const val GET_PRODUCTS = "sites/MCO/searchs"
+    const val GET_PRODUCTS = "sites/MCO/search"
 
     /**********************************************************************************************
      * HTTP ERROR

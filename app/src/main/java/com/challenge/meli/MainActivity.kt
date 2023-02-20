@@ -10,6 +10,7 @@ import timber.log.Timber.DebugTree
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun setupTimberLog(){
+    private fun setupTimberLog() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }

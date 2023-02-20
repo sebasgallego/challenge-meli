@@ -1,14 +1,13 @@
-package com.challenge.meli.product.adapter
+package com.challenge.meli.ui.product.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.challenge.meli.R
 import com.challenge.meli.databinding.ListItemProductBinding
-import com.challenge.meli.product.model.Product
+import com.challenge.meli.ui.product.data.model.Product
 import com.challenge.meli.utils.NumberHelper
 
 class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -1,4 +1,4 @@
-package com.challenge.meli
+package com.challenge.meli.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,20 +8,18 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.challenge.meli.adapter.SearchAdapter
+import com.challenge.meli.R
+import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
-import com.challenge.meli.product.model.Product
+import com.challenge.meli.ui.product.data.model.Product
 import com.challenge.meli.utils.LogHelper
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
-import timber.log.Timber
 import java.util.*
 
 class SearchFragment : Fragment() {
@@ -69,12 +67,10 @@ class SearchFragment : Fragment() {
 
         //Observe get list products
         viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
-            if (dataResponse != null) {
-                if (dataResponse.results.size > 0) {
-                    productList.clear()
-                    productList.addAll(dataResponse.results)
-                    adapterDate!!.newItems(productList)
-                }
+            if (dataResponse!!.results.size > 0) {
+                productList.clear()
+                productList.addAll(dataResponse.results)
+                adapterDate!!.newItems(productList)
             }
         }
 

@@ -1,4 +1,4 @@
-package com.challenge.meli
+package com.challenge.meli.ui.product
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentProductBinding
-import com.challenge.meli.product.adapter.ProductAdapter
-import com.challenge.meli.product.model.Product
+import com.challenge.meli.ui.product.adapter.ProductAdapter
+import com.challenge.meli.ui.product.data.model.Product
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 
 

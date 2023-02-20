@@ -1,20 +1,17 @@
-package com.challenge.meli.product
+package com.challenge.meli.ui.product.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.challenge.meli.core.RetrofitHelper
-import com.challenge.meli.product.model.ErrorResponse
-import com.challenge.meli.product.model.ProductResponse
-import com.challenge.meli.product.network.ProductApiClient
+import com.challenge.meli.ui.product.data.model.ErrorResponse
+import com.challenge.meli.ui.product.data.model.ProductResponse
+import com.challenge.meli.ui.product.data.network.ProductApiClient
 import com.challenge.meli.utils.GlobalsVar.FAILURE
 import com.challenge.meli.utils.GlobalsVar.SUCCESS
-import kotlinx.coroutines.sync.Mutex
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import timber.log.Timber
 
 class ProductRepository {
 

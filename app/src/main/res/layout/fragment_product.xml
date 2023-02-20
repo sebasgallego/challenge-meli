@@ -1,15 +1,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context=".ProductFragment">
+tools:context=".ui.product.ProductFragment">
 
 <data>
     <variable
         name="viewModel"
-        type="com.challenge.meli.ProductViewModel" />
+        type="com.challenge.meli.ui.product.ProductViewModel" />
 
     <variable
         name="productFragment"
-        type="com.challenge.meli.ProductFragment" />
+        type="com.challenge.meli.ui.product.ProductFragment" />
 </data>
 
 <LinearLayout

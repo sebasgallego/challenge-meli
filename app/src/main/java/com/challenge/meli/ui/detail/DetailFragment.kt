@@ -1,15 +1,12 @@
-package com.challenge.meli
+package com.challenge.meli.ui.detail
 
-import android.content.Intent.getIntent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.challenge.meli.product.model.Product
-import com.challenge.meli.utils.GlobalsVar.EXTRA_PRODUCT_OBJECT
+import com.challenge.meli.R
 
 
 class DetailFragment : Fragment() {
