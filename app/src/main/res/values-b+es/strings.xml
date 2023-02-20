@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">My Challenge</string>
     <string name="choose_product">Lista de productos</string>
+    <string name="choose_detail">Detalle del producto</string>
     <string name="search">Buscar en Mercado Libre</string>
     <string name="empty_data">No se encontro ningún producto</string>
     <string name="results">Resultados %s</string>
     <string name="sold_quantity">+ %s vendidos</string>
-    <string name="available">disponibles</string>
+    <string name="available">%s disponibles</string>
+    <string name="total">Total $ %s</string>
+    <string name="installments">o %s x $ %s</string>
+    <string name="brand">Marca: %s</string>
+    <string name="line">Línea: %s</string>
+    <string name="model">Modelo: %s, %s</string>
     <string name="load_failed">Carga fallida</string>
     <string name="lbl_retry">Reintentar</string>
     <string name="error_internet">No se pudo establecer una conexión a Internet, inténtelo de nuevo</string>

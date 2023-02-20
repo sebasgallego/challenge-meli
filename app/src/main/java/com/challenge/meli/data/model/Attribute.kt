@@ -10,13 +10,19 @@ class Attribute {
 }
 
 internal enum class AttributeType {
-    ITEM_CONDITION, SINGLE_OWNER, HAS_AIR_CONDITIONING;
+    BRAND,
+    LINE,
+    MODEL,
+    SUB_MODEL,
+    ITEM_CONDITION;
 
     override fun toString(): String {
         return when (this) {
+            LINE -> "LINE"
+            BRAND -> "BRAND"
+            MODEL -> "MODEL"
+            SUB_MODEL -> "SUBMODEL"
             ITEM_CONDITION -> "ITEM_CONDITION"
-            SINGLE_OWNER -> "SINGLE_OWNER"
-            HAS_AIR_CONDITIONING -> "HAS_AIR_CONDITIONING"
         }
     }
 }

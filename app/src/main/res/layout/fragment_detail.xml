@@ -1,12 +1,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.product.detail.DetailFragment">
 
     <data>
         <variable
             name="viewModel"
             type="com.challenge.meli.ui.product.ProductViewModel" />
+
+        <variable
+            name="attributeType"
+            type="com.challenge.meli.data.model.AttributeType" />
 
         <variable
             name="detailFragment"
@@ -17,14 +21,120 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/large_dimen">
+        android:padding="@dimen/medium_dimen">
 
-        <include
-            android:id="@+id/content_detail_product"
-            layout="@layout/content_detail_product"
-            bind:viewModel="@{viewModel}"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.product.getItemAttributes(attributeType.ITEM_CONDITION.toString())}' />
+
+            <View
+                android:id="@+id/divider"
+                style="@style/Widget.Challenge.Divider"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/small_dimen"
+                android:layout_marginEnd="@dimen/small_dimen" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/sold_quantity(viewModel.product.soldQuantity)}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/medium_dimen">
+
+            <ImageView
+                android:id="@+id/imageViewProduct"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                app:glideSrc="@{viewModel.product.thumbnail}"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_dimen"
+                android:text='@{viewModel.product.title}' />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/medium_dimen">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/small_dimen">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/available(viewModel.product.soldQuantity)}"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_dimen"
+                    android:text="@{@string/brand(viewModel.product.getItemAttributes(attributeType.BRAND.toString()))}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_dimen"
+                    android:text="@{@string/line(viewModel.product.getItemAttributes(attributeType.LINE.toString()))}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/small_dimen"
+                    android:text="@{@string/model(viewModel.product.getItemAttributes(attributeType.MODEL.toString()),viewModel.product.getItemAttributes(attributeType.SUB_MODEL.toString()))}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_price"
+                    android:text="@{@string/total(viewModel.price)}"
+                    android:textSize="@dimen/size_price"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_dimen"
+                    android:text="@{@string/installments(viewModel.product.installments.quantity,viewModel.product.installments.amount)}"
+                    android:textColor="@color/teal_200" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

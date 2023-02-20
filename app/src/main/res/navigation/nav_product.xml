@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.challenge.meli.ui.product.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/choose_detail"
         tools:layout="@layout/fragment_detail"/>
 
 </navigation>

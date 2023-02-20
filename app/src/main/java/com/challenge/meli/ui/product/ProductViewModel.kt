@@ -1,11 +1,18 @@
 package com.challenge.meli.ui.product
 
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
 import com.challenge.meli.data.ProductRepository
 import com.challenge.meli.data.model.*
 import com.challenge.meli.data.model.AttributeType
+import com.challenge.meli.utils.NumberHelper
 import timber.log.Timber
+import java.text.NumberFormat
 
 class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -13,7 +20,31 @@ class ProductViewModel : ViewModel() {
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
     private var errorLiveData: LiveData<ErrorResponse?>? = null
+
+    //product
     var product = Product()
+
+    // Price of the product
+    private val _price = MutableLiveData<Double>()
+    val price: LiveData<String> = Transformations.map(_price) {
+        // Format the price into the COP currency and return this as LiveData<String>
+        NumberHelper().parseAmountToCOP(it)
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("glideSrc")
+        fun loadImage(
+            view: ImageView,
+            url: String
+        ) { // This methods should not have any return type, = declaration would make it return that object declaration.
+            Glide.with(view.context)
+                .load(url)
+                .circleCrop()
+                .into(view)
+
+        }
+    }
 
     /**
      * init Repository
@@ -29,7 +60,7 @@ class ProductViewModel : ViewModel() {
      */
     fun setProductSelected(_product: Product) {
         product = _product
-        Timber.e("DEBUG"+ product.getItemAttributes(AttributeType.ITEM_CONDITION.toString()))
+        _price.value = product.price
     }
 
     /**
@@ -57,8 +88,8 @@ class ProductViewModel : ViewModel() {
      * Clear old value from LiveData
      */
     fun clear() {
-        /* productRepository!!.liveData.value = null
-         productRepository!!.errorMessage.value = null*/
+        productRepository!!.liveData.value = null
+        productRepository!!.errorMessage.value = null
     }
 
 }
