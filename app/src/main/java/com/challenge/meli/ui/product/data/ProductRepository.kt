@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 class ProductRepository {
 
     private val productApiClient: ProductApiClient
-    private val liveData: MutableLiveData<ProductResponse?> = MutableLiveData<ProductResponse?>()
+    val liveData: MutableLiveData<ProductResponse?> = MutableLiveData<ProductResponse?>()
     private val errorMessage = MutableLiveData<ErrorResponse?>()
 
     /**
@@ -60,6 +60,7 @@ class ProductRepository {
     fun getMutableLiveData(): LiveData<ProductResponse?> {
         return liveData
     }
+
 
     /**
      * get Response Live Data

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +67,7 @@ class SearchFragment : Fragment() {
     private fun setupObservers() {
 
         //Observe get list products
-        viewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
+        viewModel.getProductsResponseLiveData()!!.observe(viewLifecycleOwner) { dataResponse ->
             if (dataResponse!!.results.size > 0) {
                 productList.clear()
                 productList.addAll(dataResponse.results)
@@ -75,13 +76,16 @@ class SearchFragment : Fragment() {
         }
 
         //Observe error msg when get list products
-        viewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { responseError ->
+        viewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
             LogHelper().saveLogError(errorResponse = responseError!!)
             ViewHelper(requireActivity()).showMsgError(responseError)
         }
 
     }
 
+    /**
+     * go to next screen productFragment
+     */
     fun goToNextScreen(value: String) {
         val bundle = bundleOf(Intent.EXTRA_TEXT to value)
         findNavController().navigate(R.id.action_searchFragment_to_productFragment, bundle)
@@ -103,7 +107,7 @@ class SearchFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        binding.editTextSearch.setText("")
+                       // binding.editTextSearch.setText("")
                         goToNextScreen(productList[position].title)
                     }
 
@@ -127,10 +131,6 @@ class SearchFragment : Fragment() {
      * init text search
      */
     private fun editTextSearch() {
-
-        binding.imageViewClear.setOnClickListener {
-            binding.editTextSearch.setText("")
-        }
 
         binding.editTextSearch.addTextChangedListener(object : TextWatcher {
 
@@ -161,14 +161,12 @@ class SearchFragment : Fragment() {
             override fun beforeTextChanged(
                 s: CharSequence, start: Int,
                 count: Int, after: Int
-            ) {
-            }
+            ) {}
 
             override fun onTextChanged(
                 s: CharSequence, start: Int,
                 before: Int, count: Int
-            ) {
-            }
+            ) {}
         })
     }
 }

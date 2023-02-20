@@ -1,6 +1,7 @@
 package com.challenge.meli.ui.product
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,9 @@ import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.adapter.ProductAdapter
 import com.challenge.meli.ui.product.data.model.Product
+import com.challenge.meli.ui.search.adapter.SearchAdapter
+import com.challenge.meli.utils.LogHelper
+import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 
 
@@ -21,10 +25,7 @@ class ProductFragment : Fragment() {
     // Binding object instance corresponding to the fragment_product.xml layout
     // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
     // when the view hierarchy is attached to the fragment.
-    private var _binding: FragmentProductBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var binding: FragmentProductBinding? = null
 
     // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     private val productViewModel: ProductViewModel by activityViewModels()
@@ -37,52 +38,59 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProductBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        initRecyclerView()
-        return root
+        val fragmentBinding = FragmentProductBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
+        initRecyclerView()
+        binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = productViewModel
             productFragment = this@ProductFragment
         }
-
-        // TODO: Use the ViewModel
-        //Observe get list products
-        productViewModel.getProductsResponseLiveData()!!.observe(requireActivity()) { dataResponse ->
-            if (dataResponse != null) {
-                if (dataResponse.results.size > 0) {
-                    productList.clear()
-                    productList.addAll(dataResponse.results)
-                    adapterDate!!.newItems(productList)
-                    productViewModel.setSizeProducts(productList.size)
-                   // binding.contentRecyclerView.rvGroup.success()
-                } else {
-                    val emptyData: String = getString(R.string.empty_data)
-                    binding.contentRecyclerView.rvGroup.empty(emptyData)
-                }
-            } else {
-                binding.contentRecyclerView.rvGroup.retry()
+        setupObservers()
+        arguments?.getString(Intent.EXTRA_TEXT)?.let {
+            if (productList.size == 0) {
+                binding!!.contentRecyclerView.rvGroup.loading()
+                productViewModel.getProducts(it)
             }
         }
+    }
+
+    /**
+     * Observe get list products
+     */
+    private fun setupObservers() {
+        //Observe get list products
+        productViewModel.getProductsResponseLiveData()!!
+            .observe(viewLifecycleOwner) { dataResponse ->
+                if (dataResponse != null)
+                    if (dataResponse.results.size > 0) {
+                        productList.clear()
+                        productList.addAll(dataResponse.results)
+                        adapterDate!!.newItems(productList)
+                        productViewModel.setSizeProducts(productList.size)
+                        binding!!.contentRecyclerView.rvGroup.success()
+                    } else {
+                        val emptyData: String = getString(R.string.empty_data)
+                        binding!!.contentRecyclerView.rvGroup.empty(emptyData)
+                    }
+            }
 
         //Observe error msg when get list products
-        productViewModel.getErrorResponseLiveData()!!.observe(requireActivity()) { responseError ->
-            binding.contentRecyclerView.rvGroup.empty(responseError!!.message)
+        productViewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
+            binding!!.contentRecyclerView.rvGroup.empty(responseError!!.message)
+            binding!!.contentRecyclerView.rvGroup.retry()
         }
-
-        productViewModel.getNameSelect()?.let { productViewModel.getProducts(it) }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
+        productViewModel.clear()
     }
 
     /**
@@ -92,12 +100,12 @@ class ProductFragment : Fragment() {
     private fun initRecyclerView() {
         adapterDate = ProductAdapter(requireActivity())
         adapterDate!!.newItems(productList)
-        binding.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding.contentRecyclerView.recyclerView.adapter = adapterDate
-        binding.contentRecyclerView.recyclerView.addOnItemTouchListener(
+        binding!!.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
+        binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(
             RecyclerItemClickListener(
                 context,
-                binding.contentRecyclerView.recyclerView,
+                binding!!.contentRecyclerView.recyclerView,
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever

@@ -1,6 +1,7 @@
 package com.challenge.meli.ui.search
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.challenge.meli.ui.product.data.ProductRepository
 import com.challenge.meli.ui.product.data.model.ErrorResponse
@@ -12,6 +13,7 @@ class SearchViewModel : ViewModel() {
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
     private var errorLiveData: LiveData<ErrorResponse?>? = null
+    private var oldSearch = ""
 
     /**
      * init Repository
@@ -26,7 +28,10 @@ class SearchViewModel : ViewModel() {
      * get products
      */
     fun getProducts(text: String) {
-        productRepository!!.getProducts(text)
+        if(oldSearch != text){
+            oldSearch = text
+            productRepository!!.getProducts(text)
+        }
     }
 
     /**
@@ -42,4 +47,6 @@ class SearchViewModel : ViewModel() {
     fun getErrorResponseLiveData(): LiveData<ErrorResponse?>? {
         return errorLiveData
     }
+
+
 }

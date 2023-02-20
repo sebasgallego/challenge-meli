@@ -1,36 +1,36 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context=".ui.product.ProductFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.product.ProductFragment">
 
-<data>
-    <variable
-        name="viewModel"
-        type="com.challenge.meli.ui.product.ProductViewModel" />
+    <data>
 
-    <variable
-        name="productFragment"
-        type="com.challenge.meli.ui.product.ProductFragment" />
-</data>
+        <variable
+            name="viewModel"
+            type="com.challenge.meli.ui.product.ProductViewModel" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+        <variable
+            name="productFragment"
+            type="com.challenge.meli.ui.product.ProductFragment" />
+    </data>
 
-    <TextView
-        android:id="@+id/textViewSize"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/medium_dimen"
-        android:text="@{@string/lbl_results(viewModel.sizeProducts.toString())}"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/content_recycler_view"
-        layout="@layout/content_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/textViewSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_dimen"
+            android:text="@{@string/lbl_results(viewModel.sizeProducts.toString())}" />
 
-</LinearLayout>
+        <include
+            android:id="@+id/content_recycler_view"
+            layout="@layout/content_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </layout>
