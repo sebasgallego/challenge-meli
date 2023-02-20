@@ -1,4 +1,4 @@
-package com.challenge.meli.ui.product.data.model
+package com.challenge.meli.data.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -12,5 +12,5 @@ class Product: Serializable {
     @SerializedName("available_quantity")
     var availableQuantity: Int = 0
     var installments : Installment? = null
-    //var attributes : ArrayList<Attribute>? = null
+    var attributes : ArrayList<Attribute>? = null
 }

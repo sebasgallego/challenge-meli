@@ -17,6 +17,7 @@ class RecyclerViewEmptyRetryGroup(context: Context?, attrs: AttributeSet?, defSt
         private set
     private var mEmptyView: LinearLayout? = null
     private var textView: TextView? = null
+    private var textViewRetry: TextView? = null
     private var mRetryView: LinearLayout? = null
     private var mProgressBar: LinearLayout? = null
     private var mOnRetryClick: OnRetryClick? = null
@@ -37,6 +38,7 @@ class RecyclerViewEmptyRetryGroup(context: Context?, attrs: AttributeSet?, defSt
             return
         }
         if (child.id == R.id.layout_retry) {
+            textViewRetry = findViewById<View>(R.id.textView_retry) as TextView
             mRetryView = findViewById<View>(R.id.layout_retry) as LinearLayout
             mRetryView!!.setOnClickListener {
                 mRetryView!!.visibility = GONE
@@ -62,10 +64,11 @@ class RecyclerViewEmptyRetryGroup(context: Context?, attrs: AttributeSet?, defSt
         textView!!.text = str
     }
 
-    fun retry() {
+    fun retry(str:String) {
         mRetryView!!.visibility = VISIBLE
         mProgressBar!!.visibility = GONE
         mEmptyView!!.visibility = GONE
+        textViewRetry!!.text = str
     }
 
     fun success() {

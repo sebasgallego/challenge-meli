@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.challenge.meli.R
-import com.challenge.meli.ui.product.data.model.Product
+import com.challenge.meli.data.model.Product
 
 class SearchAdapter(
     private val context: Context

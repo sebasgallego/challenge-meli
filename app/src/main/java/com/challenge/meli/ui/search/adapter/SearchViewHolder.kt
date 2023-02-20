@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.challenge.meli.ui.product.data.model.Product
+import com.challenge.meli.data.model.Product
 import com.challenge.meli.databinding.ListItemSearchBinding
 
 class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {

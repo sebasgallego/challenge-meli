@@ -1,89 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    tools:context=".ui.product.ProductFragment">
 
-    <com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
-        android:id="@+id/rv_group"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.challenge.meli.ui.product.ProductViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
+            android:id="@+id/rv_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/layout_empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/empty_data"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_title" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_retry"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/size_20"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_warning"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_20"
-                android:text="@string/load_failed"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_title" />
-
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="@dimen/size_20"
-                android:background="@drawable/ic_rounded_corner"
-                android:backgroundTint="@color/blue"
-                android:gravity="center"
-                android:text="@string/lbl_retry"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:orientation="vertical">
-
-            <ProgressBar
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-              />
+                android:layout_height="match_parent" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-    </com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/empty_data"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_title" />
 
-</LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_retry"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/size_20"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_warning"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/textView_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_20"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_title" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="@dimen/size_20"
+                    android:background="@drawable/ic_rounded_corner"
+                    android:backgroundTint="@color/blue"
+                    android:gravity="center"
+                    android:text="@string/lbl_retry"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup>
+
+    </LinearLayout>
+
+
+</layout>

@@ -5,35 +5,42 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.challenge.meli.R
+import com.challenge.meli.databinding.FragmentDetailBinding
+import com.challenge.meli.databinding.FragmentProductBinding
+import com.challenge.meli.ui.product.ProductViewModel
 
 
 class DetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DetailFragment()
-    }
-
-    private lateinit var viewModel: DetailViewModel
+    //View
+    private var binding: FragmentDetailBinding? = null
+    // For all fragments this activity
+    private val detailViewModel: ProductViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        /*val extras = requireActivity().intent.extras
-        if (extras != null) {
-            val p = requireActivity().intent.getSerializableExtra(EXTRA_PRODUCT_OBJECT) as Product? //Obtaining data
-            Log.e("DEBUG",p!!.title)
-        }*/
-
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+    ): View {
+        val fragmentBinding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-        // TODO: Use the ViewModel
+        binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = detailViewModel
+            detailFragment = this@DetailFragment
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

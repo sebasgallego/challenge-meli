@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.challenge.meli.ui.product.data.ProductRepository
-import com.challenge.meli.ui.product.data.model.ErrorResponse
-import com.challenge.meli.ui.product.data.model.ProductResponse
+import com.challenge.meli.data.ProductRepository
+import com.challenge.meli.data.model.ErrorResponse
+import com.challenge.meli.data.model.ProductResponse
 
 class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -14,9 +14,7 @@ class ProductViewModel : ViewModel() {
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
     private var errorLiveData: LiveData<ErrorResponse?>? = null
-    // Size of products
-    private val _sizeProducts = MutableLiveData<Int>()
-    val sizeProducts: LiveData<Int> = _sizeProducts
+
 
     /**
      * init Repository
@@ -25,21 +23,6 @@ class ProductViewModel : ViewModel() {
         productRepository = ProductRepository()
         productLiveData = productRepository!!.getMutableLiveData()
         errorLiveData = productRepository!!.getErrorMutableLiveData()
-        defaultValues()
-    }
-
-    /**
-     * update size products
-     */
-    fun setSizeProducts(size: Int) {
-        _sizeProducts.value = size
-    }
-
-    /**
-     * Set default values for size products.
-     */
-    private fun defaultValues() {
-        _sizeProducts.value = 0
     }
 
 
@@ -67,6 +50,9 @@ class ProductViewModel : ViewModel() {
     /**
      * Clear old value from LiveData
      */
-    fun clear(){ productRepository!!.liveData.value = null }
+    fun clear() {
+       /* productRepository!!.liveData.value = null
+        productRepository!!.errorMessage.value = null*/
+    }
 
 }

@@ -3,7 +3,7 @@ package com.challenge.meli.utils
 import android.app.Activity
 import android.widget.Toast
 import com.challenge.meli.R
-import com.challenge.meli.ui.product.data.model.ErrorResponse
+import com.challenge.meli.data.model.ErrorResponse
 import com.challenge.meli.utils.GlobalsVar.FAILURE
 
 class ViewHelper(activity: Activity) {
@@ -14,7 +14,7 @@ class ViewHelper(activity: Activity) {
         mActivity = activity
     }
 
-    private fun precessMsgError(errorResponse: ErrorResponse): String {
+    fun processMsgError(errorResponse: ErrorResponse): String {
         return when (errorResponse.code) {
             FAILURE -> mActivity!!.getString(R.string.error_internet)
             else -> {
@@ -24,7 +24,7 @@ class ViewHelper(activity: Activity) {
     }
 
     fun showMsgError(errorResponse: ErrorResponse){
-        Toast.makeText(mActivity, precessMsgError(errorResponse), Toast.LENGTH_LONG).show()
+        Toast.makeText(mActivity, processMsgError(errorResponse), Toast.LENGTH_LONG).show()
     }
 
 }

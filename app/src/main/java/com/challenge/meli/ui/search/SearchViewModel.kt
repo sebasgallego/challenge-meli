@@ -1,11 +1,10 @@
 package com.challenge.meli.ui.search
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.challenge.meli.ui.product.data.ProductRepository
-import com.challenge.meli.ui.product.data.model.ErrorResponse
-import com.challenge.meli.ui.product.data.model.ProductResponse
+import com.challenge.meli.data.ProductRepository
+import com.challenge.meli.data.model.ErrorResponse
+import com.challenge.meli.data.model.ProductResponse
 
 class SearchViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -27,10 +26,10 @@ class SearchViewModel : ViewModel() {
     /**
      * get products
      */
-    fun getProducts(text: String) {
-        if(oldSearch != text){
-            oldSearch = text
-            productRepository!!.getProducts(text)
+    fun getProducts(newValue: String) {
+        if(oldSearch != newValue){
+            oldSearch = newValue
+            productRepository!!.getProducts(newValue)
         }
     }
 

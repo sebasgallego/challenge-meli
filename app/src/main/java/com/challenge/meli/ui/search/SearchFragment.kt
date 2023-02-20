@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.R
 import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
-import com.challenge.meli.ui.product.data.model.Product
+import com.challenge.meli.data.model.Product
+import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.utils.LogHelper
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
@@ -26,14 +27,8 @@ import java.util.*
 class SearchFragment : Fragment() {
 
     //View
-    private var _binding: FragmentSearchBinding? = null
-
-    // Use the 'by activityViewModels()' for all fragments
+    private var binding: FragmentSearchBinding? = null
     private lateinit var viewModel: SearchViewModel
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     //List view
     private var productList = mutableListOf<Product>()
@@ -43,8 +38,9 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragmentBinding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding = fragmentBinding
+        return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +54,7 @@ class SearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     /**
@@ -77,8 +73,12 @@ class SearchFragment : Fragment() {
 
         //Observe error msg when get list products
         viewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
-            LogHelper().saveLogError(errorResponse = responseError!!)
-            ViewHelper(requireActivity()).showMsgError(responseError)
+            if(responseError != null){
+                val logHelper = LogHelper()
+                val viewHelper = ViewHelper(requireActivity())
+                logHelper.saveLogError(errorResponse = responseError)
+                viewHelper.showMsgError(responseError)
+            }
         }
 
     }
@@ -98,16 +98,16 @@ class SearchFragment : Fragment() {
     private fun initRecyclerView() {
         adapterDate = SearchAdapter(requireActivity())
         adapterDate!!.newItems(productList)
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = adapterDate
-        binding.recyclerView.addOnItemTouchListener(
+        binding!!.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding!!.recyclerView.adapter = adapterDate
+        binding!!.recyclerView.addOnItemTouchListener(
             RecyclerItemClickListener(
                 context,
-                binding.recyclerView,
+                binding!!.recyclerView,
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                       // binding.editTextSearch.setText("")
+                        // binding.editTextSearch.setText("")
                         goToNextScreen(productList[position].title)
                     }
 
@@ -122,8 +122,8 @@ class SearchFragment : Fragment() {
      * init text search
      */
     private fun setOnClickClearEditTextSearch() {
-        binding.imageViewClear.setOnClickListener {
-            binding.editTextSearch.setText("")
+        binding!!.imageViewClear.setOnClickListener {
+            binding!!.editTextSearch.setText("")
         }
     }
 
@@ -131,8 +131,7 @@ class SearchFragment : Fragment() {
      * init text search
      */
     private fun editTextSearch() {
-
-        binding.editTextSearch.addTextChangedListener(object : TextWatcher {
+        binding!!.editTextSearch.addTextChangedListener(object : TextWatcher {
 
             var isTyping = false
             private var timer: Timer = Timer()
@@ -161,12 +160,15 @@ class SearchFragment : Fragment() {
             override fun beforeTextChanged(
                 s: CharSequence, start: Int,
                 count: Int, after: Int
-            ) {}
+            ) {
+            }
 
             override fun onTextChanged(
                 s: CharSequence, start: Int,
                 before: Int, count: Int
-            ) {}
+            ) {
+            }
         })
     }
+
 }

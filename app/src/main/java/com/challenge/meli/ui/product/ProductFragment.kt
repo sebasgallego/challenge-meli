@@ -13,21 +13,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.adapter.ProductAdapter
-import com.challenge.meli.ui.product.data.model.Product
+import com.challenge.meli.data.model.Product
 import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.utils.LogHelper
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
+import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
 
 
 class ProductFragment : Fragment() {
 
-    // Binding object instance corresponding to the fragment_product.xml layout
-    // This property is non-null between the onCreateView() and onDestroyView() lifecycle callbacks,
-    // when the view hierarchy is attached to the fragment.
+    //View
     private var binding: FragmentProductBinding? = null
-
-    // Use the 'by activityViewModels()' Kotlin property delegate from the fragment-ktx artifact
     private val productViewModel: ProductViewModel by activityViewModels()
 
     //List view
@@ -45,19 +42,15 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = productViewModel
             productFragment = this@ProductFragment
         }
+        initRecyclerView()
         setupObservers()
-        arguments?.getString(Intent.EXTRA_TEXT)?.let {
-            if (productList.size == 0) {
-                binding!!.contentRecyclerView.rvGroup.loading()
-                productViewModel.getProducts(it)
-            }
-        }
+        getDataArgs()
+        onClickRetry()
     }
 
     /**
@@ -72,7 +65,7 @@ class ProductFragment : Fragment() {
                         productList.clear()
                         productList.addAll(dataResponse.results)
                         adapterDate!!.newItems(productList)
-                        productViewModel.setSizeProducts(productList.size)
+
                         binding!!.contentRecyclerView.rvGroup.success()
                     } else {
                         val emptyData: String = getString(R.string.empty_data)
@@ -82,8 +75,15 @@ class ProductFragment : Fragment() {
 
         //Observe error msg when get list products
         productViewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
-            binding!!.contentRecyclerView.rvGroup.empty(responseError!!.message)
-            binding!!.contentRecyclerView.rvGroup.retry()
+            if(responseError != null) {
+                val logHelper = LogHelper()
+                val viewHelper = ViewHelper(requireActivity())
+                logHelper.saveLogError(errorResponse = responseError)
+                binding!!
+                    .contentRecyclerView
+                    .rvGroup
+                    .retry(viewHelper.processMsgError(responseError))
+            }
         }
     }
 
@@ -119,6 +119,34 @@ class ProductFragment : Fragment() {
         )
     }
 
+    /**
+     * Get data from arguments and request get
+     */
+    fun getDataArgs() {
+        arguments?.getString(Intent.EXTRA_TEXT)?.let {
+            if (productList.size == 0) {
+                binding!!.contentRecyclerView.rvGroup.loading()
+                productViewModel.getProducts(it)
+            }
+        }
+    }
+
+    /**
+     * Click retry when failed request
+     */
+    private fun onClickRetry() {
+        binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
+            RecyclerViewEmptyRetryGroup.OnRetryClick {
+            override fun onRetry() {
+                binding!!.contentRecyclerView.rvGroup.loading()
+                getDataArgs()
+            }
+        })
+    }
+
+    /**
+     * Go to next screen detail fragment
+     */
     fun goToNextScreen() {
         findNavController().navigate(R.id.action_productFragment_to_detailFragment)
     }

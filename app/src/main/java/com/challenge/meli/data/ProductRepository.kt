@@ -1,11 +1,11 @@
-package com.challenge.meli.ui.product.data
+package com.challenge.meli.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.challenge.meli.core.RetrofitHelper
-import com.challenge.meli.ui.product.data.model.ErrorResponse
-import com.challenge.meli.ui.product.data.model.ProductResponse
-import com.challenge.meli.ui.product.data.network.ProductApiClient
+import com.challenge.meli.data.model.ErrorResponse
+import com.challenge.meli.data.model.ProductResponse
+import com.challenge.meli.data.network.ProductApiClient
 import com.challenge.meli.utils.GlobalsVar.FAILURE
 import com.challenge.meli.utils.GlobalsVar.SUCCESS
 import retrofit2.Call
@@ -17,7 +17,7 @@ class ProductRepository {
 
     private val productApiClient: ProductApiClient
     val liveData: MutableLiveData<ProductResponse?> = MutableLiveData<ProductResponse?>()
-    private val errorMessage = MutableLiveData<ErrorResponse?>()
+    val errorMessage = MutableLiveData<ErrorResponse?>()
 
     /**
      * Repository
