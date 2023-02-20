@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +17,9 @@ import com.challenge.meli.R
 import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.data.model.Product
-import com.challenge.meli.databinding.FragmentProductBinding
-import com.challenge.meli.utils.LogHelper
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
+import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
 import java.util.*
 
 class SearchFragment : Fragment() {
@@ -33,6 +31,7 @@ class SearchFragment : Fragment() {
     //List view
     private var productList = mutableListOf<Product>()
     private var adapterDate: SearchAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +49,7 @@ class SearchFragment : Fragment() {
         setOnClickClearEditTextSearch()
         initRecyclerView()
         setupObservers()
+        onClickRetry()
     }
 
     override fun onDestroyView() {
@@ -62,25 +62,43 @@ class SearchFragment : Fragment() {
      */
     private fun setupObservers() {
 
+        //Observe loading when get list products
+        viewModel.loading.observe(viewLifecycleOwner) {
+            if (it)
+                binding!!.contentRecyclerView.rvGroup.loading()
+        }
+
         //Observe get list products
-        viewModel.getProductsResponseLiveData()!!.observe(viewLifecycleOwner) { dataResponse ->
+        viewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
             if (dataResponse!!.results.size > 0) {
                 productList.clear()
                 productList.addAll(dataResponse.results)
                 adapterDate!!.newItems(productList)
+                binding!!.contentRecyclerView.rvGroup.success()
+            } else {
+                val emptyData: String = getString(R.string.empty_data)
+                binding!!.contentRecyclerView.rvGroup.empty(emptyData)
             }
         }
 
         //Observe error msg when get list products
-        viewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
-            if(responseError != null){
-                val logHelper = LogHelper()
-                val viewHelper = ViewHelper(requireActivity())
-                logHelper.saveLogError(errorResponse = responseError)
-                viewHelper.showMsgError(responseError)
-            }
+        viewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
+            binding!!.contentRecyclerView.rvGroup.retry(ViewHelper(requireActivity()).processMsgError(responseCode))
         }
 
+    }
+
+    /**
+     * Click retry when failed request
+     */
+    private fun onClickRetry() {
+        binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
+            RecyclerViewEmptyRetryGroup.OnRetryClick {
+            override fun onRetry() {
+                binding!!.contentRecyclerView.rvGroup.loading()
+                //getDataArgs()
+            }
+        })
     }
 
     /**
@@ -98,12 +116,12 @@ class SearchFragment : Fragment() {
     private fun initRecyclerView() {
         adapterDate = SearchAdapter(requireActivity())
         adapterDate!!.newItems(productList)
-        binding!!.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding!!.recyclerView.adapter = adapterDate
-        binding!!.recyclerView.addOnItemTouchListener(
+        binding!!.contentRecyclerView.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
+        binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(
             RecyclerItemClickListener(
                 context,
-                binding!!.recyclerView,
+                binding!!.contentRecyclerView.recyclerView,
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever

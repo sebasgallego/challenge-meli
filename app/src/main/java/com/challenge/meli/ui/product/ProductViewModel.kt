@@ -2,24 +2,23 @@ package com.challenge.meli.ui.product
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.bumptech.glide.Glide
 import com.challenge.meli.data.ProductRepository
 import com.challenge.meli.data.model.*
-import com.challenge.meli.data.model.AttributeType
+import com.challenge.meli.data.network.NetworkState
 import com.challenge.meli.utils.NumberHelper
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.NumberFormat
 
-class ProductViewModel : ViewModel() {
+class ProductViewModel() : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
-    private var productLiveData: LiveData<ProductResponse?>? = null
-    private var errorLiveData: LiveData<ErrorResponse?>? = null
+    val productLiveData = MutableLiveData<ProductResponse?>()
+    val errorCode: LiveData<Int> get() = _errorCode
+    private val _errorCode = MutableLiveData<Int>()
+    val loading = MutableLiveData<Boolean>()
 
     //product
     var product = Product()
@@ -51,8 +50,6 @@ class ProductViewModel : ViewModel() {
      */
     init {
         productRepository = ProductRepository()
-        productLiveData = productRepository!!.getMutableLiveData()
-        errorLiveData = productRepository!!.getErrorMutableLiveData()
     }
 
     /**
@@ -66,30 +63,19 @@ class ProductViewModel : ViewModel() {
     /**
      * get products
      */
-    fun getProducts(text: String) {
-        productRepository!!.getProducts(text)
-    }
-
-    /**
-     * get products Response LiveData
-     */
-    fun getProductsResponseLiveData(): LiveData<ProductResponse?>? {
-        return productLiveData
-    }
-
-    /**
-     * get request error Response LiveData
-     */
-    fun getErrorResponseLiveData(): LiveData<ErrorResponse?>? {
-        return errorLiveData
-    }
-
-    /**
-     * Clear old value from LiveData
-     */
-    fun clear() {
-        productRepository!!.liveData.value = null
-        productRepository!!.errorMessage.value = null
+    fun getProducts(newValue: String) {
+        viewModelScope.launch {
+            loading.value = true
+            when (val response = productRepository!!.getProductForName(newValue)) {
+                is NetworkState.Success -> {
+                    productLiveData.postValue(response.data)
+                }
+                is NetworkState.Error -> {
+                    Timber.e("$_errorCode code: ${response.code}")
+                    _errorCode.value = response.code
+                }
+            }
+        }
     }
 
 }

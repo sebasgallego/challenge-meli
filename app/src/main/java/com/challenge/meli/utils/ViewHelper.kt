@@ -14,17 +14,13 @@ class ViewHelper(activity: Activity) {
         mActivity = activity
     }
 
-    fun processMsgError(errorResponse: ErrorResponse): String {
-        return when (errorResponse.code) {
+    fun processMsgError(code: Int): String {
+        return when (code) {
             FAILURE -> mActivity!!.getString(R.string.error_internet)
             else -> {
                 mActivity!!.getString(R.string.error_server)
             }
         }
-    }
-
-    fun showMsgError(errorResponse: ErrorResponse){
-        Toast.makeText(mActivity, processMsgError(errorResponse), Toast.LENGTH_LONG).show()
     }
 
 }

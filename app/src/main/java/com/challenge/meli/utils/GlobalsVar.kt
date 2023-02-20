@@ -18,10 +18,4 @@ object GlobalsVar {
     const val SUCCESS = 200
     const val FAILURE = 0
 
-
-    /**********************************************************************************************
-     * PUT EXTRA
-     **********************************************************************************************/
-    const val EXTRA_PRODUCT_OBJECT = "EXTRA_PRODUCT_OBJECT"
-
 }

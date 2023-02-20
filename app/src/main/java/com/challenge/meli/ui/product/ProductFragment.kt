@@ -14,8 +14,6 @@ import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.adapter.ProductAdapter
 import com.challenge.meli.data.model.Product
-import com.challenge.meli.ui.search.adapter.SearchAdapter
-import com.challenge.meli.utils.LogHelper
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
@@ -57,40 +55,34 @@ class ProductFragment : Fragment() {
      * Observe get list products
      */
     private fun setupObservers() {
-        //Observe get list products
-        productViewModel.getProductsResponseLiveData()!!
-            .observe(viewLifecycleOwner) { dataResponse ->
-                if (dataResponse != null)
-                    if (dataResponse.results.size > 0) {
-                        productList.clear()
-                        productList.addAll(dataResponse.results)
-                        adapterDate!!.newItems(productList)
+        //Observe loading when get list products
+        productViewModel.loading.observe(viewLifecycleOwner) {
+            if (it)
+                binding!!.contentRecyclerView.rvGroup.loading()
+        }
 
-                        binding!!.contentRecyclerView.rvGroup.success()
-                    } else {
-                        val emptyData: String = getString(R.string.empty_data)
-                        binding!!.contentRecyclerView.rvGroup.empty(emptyData)
-                    }
+        //Observe get list products
+        productViewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
+            if (dataResponse!!.results.size > 0) {
+                productList.clear()
+                productList.addAll(dataResponse.results)
+                adapterDate!!.newItems(productList)
+                binding!!.contentRecyclerView.rvGroup.success()
+            } else {
+                val emptyData: String = getString(R.string.empty_data)
+                binding!!.contentRecyclerView.rvGroup.empty(emptyData)
             }
+        }
 
         //Observe error msg when get list products
-        productViewModel.getErrorResponseLiveData()!!.observe(viewLifecycleOwner) { responseError ->
-            if(responseError != null) {
-                val logHelper = LogHelper()
-                val viewHelper = ViewHelper(requireActivity())
-                logHelper.saveLogError(errorResponse = responseError)
-                binding!!
-                    .contentRecyclerView
-                    .rvGroup
-                    .retry(viewHelper.processMsgError(responseError))
-            }
+        productViewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
+            binding!!.contentRecyclerView.rvGroup.retry(ViewHelper(requireActivity()).processMsgError(responseCode))
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        productViewModel.clear()
     }
 
     /**
