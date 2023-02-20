@@ -107,7 +107,6 @@ class SearchFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        // binding.editTextSearch.setText("")
                         goToNextScreen(productList[position].title)
                     }
 

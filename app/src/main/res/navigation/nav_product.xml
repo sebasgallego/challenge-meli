@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.challenge.meli.ui.detail.DetailFragment"
+        android:name="com.challenge.meli.ui.product.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail"/>
 

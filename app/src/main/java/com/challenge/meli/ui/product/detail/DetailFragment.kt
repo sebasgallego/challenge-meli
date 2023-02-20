@@ -1,4 +1,4 @@
-package com.challenge.meli.ui.detail
+package com.challenge.meli.ui.product.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater

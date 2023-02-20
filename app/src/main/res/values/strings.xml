@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">My Challenge</string>
     <string name="choose_product">Products list</string>
-    <string name="lbl_search">Search in Mercado Libre</string>
+    <string name="search">Search in Mercado Libre</string>
     <string name="empty_data">No product was found</string>
-    <string name="lbl_results">Results %s</string>
-    <string name="lbl_available">available</string>
+    <string name="results">Results %s</string>
+    <string name="sold_quantity">+ %s sold</string>
+    <string name="available">available</string>
     <string name="load_failed">Load failed</string>
     <string name="lbl_retry">Retry</string>
     <string name="error_internet">Failed to establish an internet connection please try again</string>

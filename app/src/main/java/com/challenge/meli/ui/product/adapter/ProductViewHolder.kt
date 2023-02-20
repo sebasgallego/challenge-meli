@@ -20,7 +20,7 @@ class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.textViewPrice.text = "$ ${NumberHelper().parseAmountToCOP(item.price)}"
         if (item.installments != null) binding.textViewInstallments.text =
             "${item.installments!!.quantity}x $${NumberHelper().parseAmountToCOP(item.installments!!.amount)}"
-        val lblAvailable: String = context.getString(R.string.lbl_available)
+        val lblAvailable: String = context.getString(R.string.available)
         binding.textViewQuantity.text = "${item.availableQuantity} $lblAvailable"
     }
 }

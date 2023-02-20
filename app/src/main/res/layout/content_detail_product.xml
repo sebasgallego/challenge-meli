@@ -1,95 +1,124 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    tools:context=".ui.product.ProductFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.challenge.meli.ui.product.ProductViewModel" />
+        <variable
+            name="attributeType"
+            type="com.challenge.meli.data.model.AttributeType" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textViewTitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textViewPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/small_dimen"
-            android:textSize="@dimen/size_title"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/imageViewProduct"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:cropToPadding="false"
-            tools:ignore="ContentDescription" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/medium_dimen">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/small_dimen">
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewInstallments"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sub_title_size"
-                android:textStyle="italic" />
+                android:text='@{viewModel.product.getItemAttributes(attributeType.ITEM_CONDITION.toString())}' />
+
+            <View
+                android:id="@+id/divider"
+                style="@style/Widget.Challenge.Divider"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/small_dimen"
+                android:layout_marginEnd="@dimen/small_dimen"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/sold_quantity(viewModel.product.soldQuantity)}"
+             />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/small_dimen">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewQuantity"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textViewPrice"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/small_dimen"
-                android:textColor="@color/teal_200"
-                android:textSize="@dimen/small_text"
+                android:paddingTop="@dimen/small_dimen"
+                android:textSize="@dimen/size_title"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageViewProduct"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/medium_dimen">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/small_dimen">
+
+                <TextView
+                    android:id="@+id/textViewInstallments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sub_title_size"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/small_dimen">
+
+                <TextView
+                    android:id="@+id/textViewQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/small_dimen"
+                    android:textColor="@color/teal_200"
+                    android:textSize="@dimen/small_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+
+</layout>

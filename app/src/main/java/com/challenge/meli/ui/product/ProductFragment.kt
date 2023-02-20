@@ -109,6 +109,7 @@ class ProductFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
+                        productViewModel.setProductSelected(productList[position])
                         goToNextScreen()
                     }
 

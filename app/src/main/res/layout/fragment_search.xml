@@ -43,7 +43,7 @@
                         android:backgroundTint="@color/white"
                         android:ems="10"
                         android:autofillHints="username"
-                        android:hint="@string/lbl_search"
+                        android:hint="@string/search"
                         android:inputType="textPersonName"
                         android:textSize="@dimen/edit_size" />
 

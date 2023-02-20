@@ -1,12 +1,11 @@
 package com.challenge.meli.ui.product
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
 import com.challenge.meli.data.ProductRepository
-import com.challenge.meli.data.model.ErrorResponse
-import com.challenge.meli.data.model.ProductResponse
+import com.challenge.meli.data.model.*
+import com.challenge.meli.data.model.AttributeType
+import timber.log.Timber
 
 class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
@@ -14,7 +13,7 @@ class ProductViewModel : ViewModel() {
     private var productRepository: ProductRepository? = null
     private var productLiveData: LiveData<ProductResponse?>? = null
     private var errorLiveData: LiveData<ErrorResponse?>? = null
-
+    var product = Product()
 
     /**
      * init Repository
@@ -25,6 +24,13 @@ class ProductViewModel : ViewModel() {
         errorLiveData = productRepository!!.getErrorMutableLiveData()
     }
 
+    /**
+     * set product selected
+     */
+    fun setProductSelected(_product: Product) {
+        product = _product
+        Timber.e("DEBUG"+ product.getItemAttributes(AttributeType.ITEM_CONDITION.toString()))
+    }
 
     /**
      * get products
@@ -51,8 +57,8 @@ class ProductViewModel : ViewModel() {
      * Clear old value from LiveData
      */
     fun clear() {
-       /* productRepository!!.liveData.value = null
-        productRepository!!.errorMessage.value = null*/
+        /* productRepository!!.liveData.value = null
+         productRepository!!.errorMessage.value = null*/
     }
 
 }
