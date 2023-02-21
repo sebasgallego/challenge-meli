@@ -23,4 +23,5 @@ class ViewHelper(activity: Activity) {
         }
     }
 
+
 }

@@ -63,26 +63,34 @@ class ProductFragment : Fragment() {
 
         //Observe get list products
         productViewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
-            if (dataResponse!!.results.size > 0) {
-                productList.clear()
-                productList.addAll(dataResponse.results)
-                adapterDate!!.newItems(productList)
-                binding!!.contentRecyclerView.rvGroup.success()
-            } else {
-                val emptyData: String = getString(R.string.empty_data)
-                binding!!.contentRecyclerView.rvGroup.empty(emptyData)
-            }
+            if (dataResponse != null)
+                if (dataResponse.results.size > 0) {
+                    productList.clear()
+                    productList.addAll(dataResponse.results)
+                    adapterDate!!.newItems(productList)
+                    binding!!.contentRecyclerView.rvGroup.success()
+                } else {
+                    val emptyData: String = getString(R.string.empty_data)
+                    binding!!.contentRecyclerView.rvGroup.empty(emptyData)
+                }
         }
 
         //Observe error msg when get list products
         productViewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
-            binding!!.contentRecyclerView.rvGroup.retry(ViewHelper(requireActivity()).processMsgError(responseCode))
+            if (responseCode != null) {
+                binding!!.contentRecyclerView.rvGroup.retry(
+                    ViewHelper(requireActivity()).processMsgError(
+                        responseCode
+                    )
+                )
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+        productViewModel.clear()
     }
 
     /**

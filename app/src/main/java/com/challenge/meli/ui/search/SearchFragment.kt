@@ -28,6 +28,7 @@ class SearchFragment : Fragment() {
     private var binding: FragmentSearchBinding? = null
     private lateinit var viewModel: SearchViewModel
 
+
     //List view
     private var productList = mutableListOf<Product>()
     private var adapterDate: SearchAdapter? = null
@@ -95,8 +96,7 @@ class SearchFragment : Fragment() {
         binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
             RecyclerViewEmptyRetryGroup.OnRetryClick {
             override fun onRetry() {
-                binding!!.contentRecyclerView.rvGroup.loading()
-                //getDataArgs()
+                viewModel.getProducts(viewModel.oldTextSearch)
             }
         })
     }

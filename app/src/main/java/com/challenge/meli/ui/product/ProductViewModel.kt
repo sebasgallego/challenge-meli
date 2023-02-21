@@ -6,18 +6,18 @@ import androidx.lifecycle.*
 import com.bumptech.glide.Glide
 import com.challenge.meli.data.ProductRepository
 import com.challenge.meli.data.model.*
-import com.challenge.meli.data.network.NetworkState
 import com.challenge.meli.utils.NumberHelper
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.net.HttpURLConnection
 
 class ProductViewModel() : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
     val productLiveData = MutableLiveData<ProductResponse?>()
-    val errorCode: LiveData<Int> get() = _errorCode
-    private val _errorCode = MutableLiveData<Int>()
+    val errorCode: MutableLiveData<Int?> get() = _errorCode
+    private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
 
     //product
@@ -66,16 +66,24 @@ class ProductViewModel() : ViewModel() {
     fun getProducts(newValue: String) {
         viewModelScope.launch {
             loading.value = true
-            when (val response = productRepository!!.getProductForName(newValue)) {
-                is NetworkState.Success -> {
-                    productLiveData.postValue(response.data)
-                }
-                is NetworkState.Error -> {
-                    Timber.e("$_errorCode code: ${response.code}")
-                    _errorCode.value = response.code
-                }
+            val response = productRepository!!.getProductForName(newValue)
+            if (response.httpCode == HttpURLConnection.HTTP_OK) {
+                productLiveData.postValue(response.body)
+                loading.value = false
+            } else {
+                Timber.e("$_errorCode code: ${response.httpCode}")
+                _errorCode.value = response.httpCode
+                loading.value = false
             }
         }
+    }
+
+    /**
+     * Clear old value from LiveData
+     */
+    fun clear() {
+        productLiveData.value = null
+        _errorCode.value = null
     }
 
 }
