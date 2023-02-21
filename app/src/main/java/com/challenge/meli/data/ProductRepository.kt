@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 
 class ProductRepository {
 
-    private val productApiClient: ProductApiClient
+      var productApiClient: ProductApiClient
 
     /**
      * Repository

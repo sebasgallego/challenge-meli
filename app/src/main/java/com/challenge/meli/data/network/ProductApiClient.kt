@@ -11,11 +11,6 @@ import retrofit2.http.Query
 interface ProductApiClient {
 
     @GET(GET_PRODUCTS)
-    fun getProducts(
-        @Query("q") text: String
-    ): Call<ProductResponse?>?
-
-    @GET(GET_PRODUCTS)
     suspend fun getProductForName(@Query("q") text: String): Response<ProductResponse>
 
 }
