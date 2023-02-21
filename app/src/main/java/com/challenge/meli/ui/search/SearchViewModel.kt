@@ -14,11 +14,11 @@ class SearchViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
-    val productLiveData = MutableLiveData<ProductResponse?>()
+    val productLiveData = MutableLiveData<ProductResponse>()
     val errorCode: MutableLiveData<Int?> get() = _errorCode
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
-    var oldTextSearch = ""
+    lateinit var oldTextSearch: String
     var isFirstOpen = false
 
     /**
@@ -38,7 +38,7 @@ class SearchViewModel : ViewModel() {
                 checkFirstOpen()
                 val response = productRepository!!.getProductForName(newValue)
                 if (response.httpCode == HttpURLConnection.HTTP_OK) {
-                    productLiveData.postValue(response.body)
+                    productLiveData.postValue(response.body!!)
                     loading.value = false
                     _errorCode.value = null
                 } else {
@@ -51,7 +51,7 @@ class SearchViewModel : ViewModel() {
     }
 
     /**
-     * Check if is First Open
+     * Check if is First Open for show loading
      */
     private fun checkFirstOpen(){
         if(!isFirstOpen){

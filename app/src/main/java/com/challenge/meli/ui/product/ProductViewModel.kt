@@ -15,13 +15,13 @@ class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
-    val productLiveData = MutableLiveData<ProductResponse?>()
+    val productLiveData = MutableLiveData<ProductResponse>()
     val errorCode: MutableLiveData<Int?> get() = _errorCode
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
 
     //product
-    var product = Product()
+    val product: MutableLiveData<Product> = MutableLiveData()
 
     // Price of the product
     private val _price = MutableLiveData<Double>()
@@ -55,8 +55,8 @@ class ProductViewModel : ViewModel() {
      * set product selected
      */
     fun setProductSelected(_product: Product) {
-        product = _product
-        _price.value = product.price
+        product.value = _product
+        _price.value = _product.price
     }
 
     /**
@@ -78,12 +78,5 @@ class ProductViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Clear old value from LiveData
-     */
-    fun clear() {
-        productLiveData.value = null
-        _errorCode.value = null
-    }
 
 }

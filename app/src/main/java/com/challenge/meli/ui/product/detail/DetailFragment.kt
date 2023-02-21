@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentDetailBinding
 import com.challenge.meli.ui.product.ProductViewModel
-import timber.log.Timber
+
 
 class DetailFragment : Fragment() {
 
     //View
     private var binding: FragmentDetailBinding? = null
-    // For all fragments this activity
-    private val detailViewModel: ProductViewModel by activityViewModels()
+    // Child view model for this fragments
+    private val detailViewModel: ProductViewModel by navGraphViewModels(R.id.nav_product)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

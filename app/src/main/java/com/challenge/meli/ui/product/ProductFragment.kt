@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.challenge.meli.R
 import com.challenge.meli.data.model.Product
@@ -22,9 +23,10 @@ import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
 
 class ProductFragment : Fragment() {
 
-    //View
+    //View binding
     private var binding: FragmentProductBinding? = null
-    private val productViewModel: ProductViewModel by activityViewModels()
+    //Owner view model
+    val productViewModel: ProductViewModel by navGraphViewModels(R.id.nav_product)
 
     //List view
     private var productList = mutableListOf<Product>()
@@ -65,7 +67,6 @@ class ProductFragment : Fragment() {
 
         //Observe get list products
         productViewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
-            if (dataResponse != null)
                 if (dataResponse.results.size > 0) {
                     productList.clear()
                     productList.addAll(dataResponse.results)
@@ -92,7 +93,6 @@ class ProductFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        //productViewModel.clear()
     }
 
     /**

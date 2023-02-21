@@ -11,14 +11,12 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.R
-import com.challenge.meli.ui.search.adapter.SearchAdapter
-import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.data.model.Product
-import com.challenge.meli.ui.product.ProductViewModel
+import com.challenge.meli.databinding.FragmentSearchBinding
+import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
@@ -84,12 +82,13 @@ class SearchFragment : Fragment() {
 
         //Observe error msg when get list products
         viewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
-            if(responseCode != null)
-            binding!!.contentRecyclerView.rvGroup.retry(
-                ViewHelper(requireActivity()).processMsgError(
-                    responseCode
+            if (responseCode != null) {
+                binding!!.contentRecyclerView.rvGroup.retry(
+                    ViewHelper(requireActivity()).processMsgError(
+                        responseCode
+                    )
                 )
-            )
+            }
         }
 
     }
@@ -101,7 +100,7 @@ class SearchFragment : Fragment() {
         binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
             RecyclerViewEmptyRetryGroup.OnRetryClick {
             override fun onRetry() {
-                viewModel.getProducts(viewModel.oldTextSearch,true)
+                viewModel.getProducts(viewModel.oldTextSearch, true)
             }
         })
     }
@@ -111,7 +110,7 @@ class SearchFragment : Fragment() {
      */
     fun goToNextScreen(value: String) {
         val bundle = bundleOf(Intent.EXTRA_TEXT to value)
-        findNavController().navigate(R.id.action_searchFragment_to_productFragment, bundle)
+        findNavController().navigate(R.id.action_searchFragment_to_nav_product, bundle)
     }
 
     /**
@@ -172,7 +171,7 @@ class SearchFragment : Fragment() {
                             isTyping = false
                             val str = s.toString().trim()
                             if (str.length > 2) {
-                                viewModel.getProducts(str,false)
+                                viewModel.getProducts(str, false)
                             }
                         }
                     },
