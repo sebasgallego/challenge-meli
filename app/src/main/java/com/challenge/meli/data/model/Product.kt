@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class Product {
 
-    var order_backend: Boolean = false
+    //var order_backend: Boolean = false
     var id: String = ""
     var title: String = ""
     var thumbnail: String = ""
@@ -16,7 +16,6 @@ class Product {
     var soldQuantity: Int = 0
     var installments: Installment? = null
     var attributes: ArrayList<Attribute>? = null
-
 
     fun getItemAttributes(type: String): String {
         var value = ""

@@ -3,10 +3,12 @@ package com.challenge.meli.data.model
 import com.google.gson.annotations.SerializedName
 
 class Attribute {
+
     var id: String = ""
 
     @SerializedName("value_name")
     var valeName: String = ""
+
 }
 
 internal enum class AttributeType {

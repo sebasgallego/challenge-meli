@@ -17,6 +17,7 @@ import com.challenge.meli.data.model.Product
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
+import timber.log.Timber
 
 
 class ProductFragment : Fragment() {
@@ -27,7 +28,7 @@ class ProductFragment : Fragment() {
 
     //List view
     private var productList = mutableListOf<Product>()
-    private var adapterDate: ProductAdapter? = null
+    private lateinit var adapterDate: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +56,7 @@ class ProductFragment : Fragment() {
      * Observe get list products
      */
     private fun setupObservers() {
+
         //Observe loading when get list products
         productViewModel.loading.observe(viewLifecycleOwner) {
             if (it)
@@ -67,7 +69,7 @@ class ProductFragment : Fragment() {
                 if (dataResponse.results.size > 0) {
                     productList.clear()
                     productList.addAll(dataResponse.results)
-                    adapterDate!!.newItems(productList)
+                    adapterDate.newItems(productList)
                     binding!!.contentRecyclerView.rvGroup.success()
                 } else {
                     val emptyData: String = getString(R.string.empty_data)
@@ -99,7 +101,7 @@ class ProductFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
         adapterDate = ProductAdapter(requireActivity())
-        adapterDate!!.newItems(productList)
+        adapterDate.newItems(productList)
         binding!!.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
         binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
         binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(

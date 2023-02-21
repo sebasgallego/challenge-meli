@@ -43,20 +43,6 @@ class ProductAdapter(
     }
 
     /**
-     * delete Item
-     */
-    fun deleteItem(position: Int) {
-        itemList.removeAt(position)
-    }
-
-    /**
-     * add Item
-     */
-    fun addItem(service: Product) {
-        itemList.add(service)
-    }
-
-    /**
      * get Item Count
      */
     override fun getItemCount(): Int = itemList.size

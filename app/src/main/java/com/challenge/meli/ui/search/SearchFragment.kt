@@ -27,11 +27,10 @@ class SearchFragment : Fragment() {
     //View
     private var binding: FragmentSearchBinding? = null
     private lateinit var viewModel: SearchViewModel
-
-
+    
     //List view
     private var productList = mutableListOf<Product>()
-    private var adapterDate: SearchAdapter? = null
+    private lateinit var adapterDate: SearchAdapter
 
 
     override fun onCreateView(
@@ -84,7 +83,11 @@ class SearchFragment : Fragment() {
 
         //Observe error msg when get list products
         viewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
-            binding!!.contentRecyclerView.rvGroup.retry(ViewHelper(requireActivity()).processMsgError(responseCode))
+            binding!!.contentRecyclerView.rvGroup.retry(
+                ViewHelper(requireActivity()).processMsgError(
+                    responseCode
+                )
+            )
         }
 
     }
@@ -125,7 +128,8 @@ class SearchFragment : Fragment() {
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         // do whatever
-                        goToNextScreen(productList[position].title)
+                        if (productList.size > 0)
+                            goToNextScreen(productList[position].title)
                     }
 
                     override fun onLongItemClick(view: View, position: Int) {

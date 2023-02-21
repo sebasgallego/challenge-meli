@@ -38,22 +38,9 @@ class SearchAdapter(
      */
     @SuppressLint("NotifyDataSetChanged")
     fun newItems(items: MutableList<Product>) {
-        itemList = items
+        this.itemList.clear()
+        this.itemList.addAll(items)
         notifyDataSetChanged()
-    }
-
-    /**
-     * delete Item
-     */
-    fun deleteItem(position: Int) {
-        itemList.removeAt(position)
-    }
-
-    /**
-     * add Item
-     */
-    fun addItem(service: Product) {
-        itemList.add(service)
     }
 
     /**

@@ -41,7 +41,6 @@ class ProductViewModel : ViewModel() {
                 .load(url)
                 .circleCrop()
                 .into(view)
-
         }
     }
 
