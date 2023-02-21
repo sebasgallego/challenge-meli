@@ -69,6 +69,7 @@ class ProductViewModel : ViewModel() {
             if (response.httpCode == HttpURLConnection.HTTP_OK) {
                 productLiveData.postValue(response.body)
                 loading.value = false
+                _errorCode.value = null
             } else {
                 Timber.e("$_errorCode code: ${response.httpCode}")
                 _errorCode.value = response.httpCode

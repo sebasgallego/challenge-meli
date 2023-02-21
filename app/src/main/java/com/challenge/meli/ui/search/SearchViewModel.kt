@@ -15,8 +15,8 @@ class SearchViewModel : ViewModel() {
     // Expose screen UI product
     private var productRepository: ProductRepository? = null
     val productLiveData = MutableLiveData<ProductResponse?>()
-    val errorCode: LiveData<Int> get() = _errorCode
-    private val _errorCode = MutableLiveData<Int>()
+    val errorCode: MutableLiveData<Int?> get() = _errorCode
+    private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
     var oldTextSearch = ""
     var isFirstOpen = false
@@ -31,8 +31,8 @@ class SearchViewModel : ViewModel() {
     /**
      * get products
      */
-    fun getProducts(newValue: String) {
-        if(oldTextSearch != newValue){
+    fun getProducts(newValue: String,isRetry:Boolean) {
+        if(oldTextSearch != newValue || isRetry){
             oldTextSearch = newValue
             viewModelScope.launch {
                 checkFirstOpen()
@@ -40,6 +40,7 @@ class SearchViewModel : ViewModel() {
                 if (response.httpCode == HttpURLConnection.HTTP_OK) {
                     productLiveData.postValue(response.body)
                     loading.value = false
+                    _errorCode.value = null
                 } else {
                     Timber.e("$_errorCode code: ${response.httpCode}")
                     _errorCode.value = response.httpCode
@@ -58,4 +59,10 @@ class SearchViewModel : ViewModel() {
             isFirstOpen = true
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.e("onCleared")
+    }
+
 }

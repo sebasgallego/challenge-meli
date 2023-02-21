@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.challenge.meli.R
 import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.data.model.Product
+import com.challenge.meli.ui.product.ProductViewModel
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
@@ -26,8 +28,8 @@ class SearchFragment : Fragment() {
 
     //View
     private var binding: FragmentSearchBinding? = null
-    private lateinit var viewModel: SearchViewModel
-    
+    private val viewModel: SearchViewModel by viewModels()
+
     //List view
     private var productList = mutableListOf<Product>()
     private lateinit var adapterDate: SearchAdapter
@@ -44,7 +46,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         editTextSearch()
         setOnClickClearEditTextSearch()
         initRecyclerView()
@@ -73,7 +74,7 @@ class SearchFragment : Fragment() {
             if (dataResponse!!.results.size > 0) {
                 productList.clear()
                 productList.addAll(dataResponse.results)
-                adapterDate!!.newItems(productList)
+                adapterDate.newItems(productList)
                 binding!!.contentRecyclerView.rvGroup.success()
             } else {
                 val emptyData: String = getString(R.string.empty_data)
@@ -83,6 +84,7 @@ class SearchFragment : Fragment() {
 
         //Observe error msg when get list products
         viewModel.errorCode.observe(viewLifecycleOwner) { responseCode ->
+            if(responseCode != null)
             binding!!.contentRecyclerView.rvGroup.retry(
                 ViewHelper(requireActivity()).processMsgError(
                     responseCode
@@ -99,7 +101,7 @@ class SearchFragment : Fragment() {
         binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
             RecyclerViewEmptyRetryGroup.OnRetryClick {
             override fun onRetry() {
-                viewModel.getProducts(viewModel.oldTextSearch)
+                viewModel.getProducts(viewModel.oldTextSearch,true)
             }
         })
     }
@@ -118,7 +120,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
         adapterDate = SearchAdapter(requireActivity())
-        adapterDate!!.newItems(productList)
+        adapterDate.newItems(productList)
         binding!!.contentRecyclerView.recyclerView.layoutManager = LinearLayoutManager(context)
         binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
         binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(
@@ -170,7 +172,7 @@ class SearchFragment : Fragment() {
                             isTyping = false
                             val str = s.toString().trim()
                             if (str.length > 2) {
-                                viewModel.getProducts(str)
+                                viewModel.getProducts(str,false)
                             }
                         }
                     },

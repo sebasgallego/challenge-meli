@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.challenge.meli.R
+import com.challenge.meli.data.model.Product
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.adapter.ProductAdapter
-import com.challenge.meli.data.model.Product
 import com.challenge.meli.utils.ViewHelper
 import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
-import timber.log.Timber
 
 
 class ProductFragment : Fragment() {
@@ -92,7 +92,7 @@ class ProductFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-        productViewModel.clear()
+        //productViewModel.clear()
     }
 
     /**

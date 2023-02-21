@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import com.challenge.meli.R
 import com.challenge.meli.databinding.FragmentDetailBinding
-import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.ProductViewModel
-
+import timber.log.Timber
 
 class DetailFragment : Fragment() {
 
