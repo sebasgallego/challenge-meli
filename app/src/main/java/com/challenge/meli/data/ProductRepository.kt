@@ -4,7 +4,10 @@ import com.challenge.meli.core.RetrofitHelper
 import com.challenge.meli.data.model.ProductResponse
 import com.challenge.meli.data.network.ApiResponse
 import com.challenge.meli.data.network.ProductApiClient
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import retrofit2.Retrofit
+import java.net.HttpURLConnection
 
 class ProductRepository {
 
@@ -27,7 +30,8 @@ class ProductRepository {
             }
             return ApiResponse(errorMessage = response.message(), httpCode = response.code())
         } catch (e: Exception) {
-            return ApiResponse(errorMessage = e.message ?: e.toString(), httpCode = -1)
+            Firebase.crashlytics.recordException(e)
+            return ApiResponse(errorMessage = e.message ?: e.toString(), httpCode = HttpURLConnection.HTTP_UNAVAILABLE)
         }
     }
 

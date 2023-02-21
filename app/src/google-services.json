@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "787929544730",
+    "project_id": "challenge-meli-76a2d",
+    "storage_bucket": "challenge-meli-76a2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787929544730:android:4f031f02b468eecb1db9a3",
+        "android_client_info": {
+          "package_name": "com.challenge.meli"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787929544730-f1bge4p9ne39eatdv9fanqencpt297rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwWnKySHtFjJSj_vjOvOO9hmDjHI5IqKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787929544730-f1bge4p9ne39eatdv9fanqencpt297rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

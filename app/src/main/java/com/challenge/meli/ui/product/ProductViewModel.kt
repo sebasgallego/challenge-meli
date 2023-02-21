@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.net.HttpURLConnection
 
-class ProductViewModel() : ViewModel() {
+class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
     private var productRepository: ProductRepository? = null

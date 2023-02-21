@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class Product {
 
-    //var order_backend: Boolean = ""
+    var order_backend: Boolean = false
     var id: String = ""
     var title: String = ""
     var thumbnail: String = ""
