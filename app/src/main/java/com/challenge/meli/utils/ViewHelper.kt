@@ -14,9 +14,9 @@ class ViewHelper(activity: Activity) {
 
     fun processMsgError(code: Int): String {
         return when (code) {
-            HTTP_UNAVAILABLE -> mActivity!!.getString(R.string.error_server)
+            HTTP_UNAVAILABLE -> mActivity!!.getString(R.string.error_internet)
             else -> {
-                mActivity!!.getString(R.string.error_internet)
+                mActivity!!.getString(R.string.error_server)
             }
         }
     }
