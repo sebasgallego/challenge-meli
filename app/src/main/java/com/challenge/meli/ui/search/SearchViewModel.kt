@@ -19,20 +19,28 @@ class SearchViewModel : ViewModel() {
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
     lateinit var oldTextSearch: String
-    var isFirstOpen = false
+    private  var isFirstOpen: Boolean = false
 
     /**
      * init Repository
      */
     init {
         productRepository = ProductRepository()
+        default()
     }
 
     /**
+     * Default data
+     */
+    private fun default(){
+        oldTextSearch = ""
+        isFirstOpen = false
+    }
+    /**
      * get products
      */
-    fun getProducts(newValue: String,isRetry:Boolean) {
-        if(oldTextSearch != newValue || isRetry){
+    fun getProducts(newValue: String, isRetry: Boolean) {
+        if (oldTextSearch != newValue || isRetry) {
             oldTextSearch = newValue
             viewModelScope.launch {
                 checkFirstOpen()
@@ -53,16 +61,11 @@ class SearchViewModel : ViewModel() {
     /**
      * Check if is First Open for show loading
      */
-    private fun checkFirstOpen(){
-        if(!isFirstOpen){
+    private fun checkFirstOpen() {
+        if (!isFirstOpen) {
             loading.value = true
             isFirstOpen = true
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.e("onCleared")
     }
 
 }

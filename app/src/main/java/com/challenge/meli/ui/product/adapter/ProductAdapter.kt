@@ -1,28 +1,26 @@
 package com.challenge.meli.ui.product.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.challenge.meli.R
 import com.challenge.meli.data.model.Product
+import com.challenge.meli.databinding.ListItemProductBinding
 
 class ProductAdapter(
-    private val context: Context,
+    private val listener: ProductItemListener
 ) : RecyclerView.Adapter<ProductViewHolder>() {
 
     private var itemList: MutableList<Product> = ArrayList()
 
+    interface ProductItemListener {
+        fun onClickedProduct(product: Product)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return ProductViewHolder(
-            layoutInflater.inflate(
-                R.layout.list_item_product,
-                parent,
-                false
-            )
-        )
+        val binding: ListItemProductBinding =
+            ListItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ProductViewHolder(binding, listener)
     }
 
     /**
@@ -30,7 +28,7 @@ class ProductAdapter(
      */
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val item = itemList[position]
-        holder.bind(item, this.context)
+        holder.bind(item)
     }
 
     /**

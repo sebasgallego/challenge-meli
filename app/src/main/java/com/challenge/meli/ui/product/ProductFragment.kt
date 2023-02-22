@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,20 +15,20 @@ import com.challenge.meli.data.model.Product
 import com.challenge.meli.databinding.FragmentProductBinding
 import com.challenge.meli.ui.product.adapter.ProductAdapter
 import com.challenge.meli.utils.ViewHelper
-import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
+import java.util.ArrayList
 
 
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(), ProductAdapter.ProductItemListener {
 
-    //View binding
+    //View model and binding
     private var binding: FragmentProductBinding? = null
+
     //Owner view model
     val productViewModel: ProductViewModel by navGraphViewModels(R.id.nav_product)
 
     //List view
-    private var productList = mutableListOf<Product>()
-    private lateinit var adapterDate: ProductAdapter
+    private lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,15 +65,13 @@ class ProductFragment : Fragment() {
 
         //Observe get list products
         productViewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
-                if (dataResponse.results.size > 0) {
-                    productList.clear()
-                    productList.addAll(dataResponse.results)
-                    adapterDate.newItems(productList)
-                    binding!!.contentRecyclerView.rvGroup.success()
-                } else {
-                    val emptyData: String = getString(R.string.empty_data)
-                    binding!!.contentRecyclerView.rvGroup.empty(emptyData)
-                }
+            if (dataResponse.results.size > 0) {
+                adapter.newItems(ArrayList(dataResponse.results))
+                binding!!.contentRecyclerView.rvGroup.success()
+            } else {
+                val emptyData: String = getString(R.string.empty_data)
+                binding!!.contentRecyclerView.rvGroup.empty(emptyData)
+            }
         }
 
         //Observe error msg when get list products
@@ -100,26 +96,9 @@ class ProductFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
-        adapterDate = ProductAdapter(requireActivity())
-        adapterDate.newItems(productList)
+        adapter = ProductAdapter(this)
         binding!!.contentRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
-        binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(
-            RecyclerItemClickListener(
-                context,
-                binding!!.contentRecyclerView.recyclerView,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        // do whatever
-                        productViewModel.setProductSelected(productList[position])
-                        goToNextScreen()
-                    }
-
-                    override fun onLongItemClick(view: View, position: Int) {
-                        // do whatever
-                    }
-                })
-        )
+        binding!!.contentRecyclerView.recyclerView.adapter = adapter
     }
 
     /**
@@ -127,10 +106,7 @@ class ProductFragment : Fragment() {
      */
     fun getDataArgs() {
         arguments?.getString(Intent.EXTRA_TEXT)?.let {
-            if (productList.size == 0) {
-                binding!!.contentRecyclerView.rvGroup.loading()
-                productViewModel.getProducts(it)
-            }
+            productViewModel.getProducts(it)
         }
     }
 
@@ -141,7 +117,6 @@ class ProductFragment : Fragment() {
         binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
             RecyclerViewEmptyRetryGroup.OnRetryClick {
             override fun onRetry() {
-                binding!!.contentRecyclerView.rvGroup.loading()
                 getDataArgs()
             }
         })
@@ -150,8 +125,16 @@ class ProductFragment : Fragment() {
     /**
      * Go to next screen detail fragment
      */
-    fun goToNextScreen() {
+    private fun goToNextScreen(product: Product) {
+        productViewModel.setProductSelected(product)
         findNavController().navigate(R.id.action_productFragment_to_detailFragment)
+    }
+
+    /**
+     * Go to detail fragment from product selected
+     */
+    override fun onClickedProduct(product: Product) {
+        goToNextScreen(product)
     }
 
 }

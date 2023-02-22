@@ -7,22 +7,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.challenge.meli.R
 import com.challenge.meli.data.model.Product
+import com.challenge.meli.databinding.ListItemSearchBinding
 
-class SearchAdapter(
-    private val context: Context
-) : RecyclerView.Adapter<SearchViewHolder>() {
+class SearchAdapter(private val listener: SearchItemListener) : RecyclerView.Adapter<SearchViewHolder>() {
 
     private var itemList: MutableList<Product> = ArrayList()
 
+    interface SearchItemListener {
+        fun onClickedProduct(title: String)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return SearchViewHolder(
-            layoutInflater.inflate(
-                R.layout.list_item_search,
-                parent,
-                false
-            )
-        )
+        val binding: ListItemSearchBinding = ListItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SearchViewHolder(binding, listener)
     }
 
     /**
@@ -30,7 +27,7 @@ class SearchAdapter(
      */
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val item = itemList[position]
-        holder.bind(item, this.context)
+        holder.bind(item)
     }
 
     /**

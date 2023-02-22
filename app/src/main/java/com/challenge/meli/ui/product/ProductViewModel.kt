@@ -19,10 +19,9 @@ class ProductViewModel : ViewModel() {
     val errorCode: MutableLiveData<Int?> get() = _errorCode
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
-
+    private  var isSuccess: Boolean = false
     //product
     val product: MutableLiveData<Product> = MutableLiveData()
-
     // Price of the product
     private val _price = MutableLiveData<Double>()
     val price: LiveData<String> = Transformations.map(_price) {
@@ -49,6 +48,14 @@ class ProductViewModel : ViewModel() {
      */
     init {
         productRepository = ProductRepository()
+        default()
+    }
+
+    /**
+     * Default data
+     */
+    private fun default(){
+        isSuccess = false
     }
 
     /**
@@ -63,20 +70,23 @@ class ProductViewModel : ViewModel() {
      * get products
      */
     fun getProducts(newValue: String) {
-        viewModelScope.launch {
-            loading.value = true
-            val response = productRepository!!.getProductForName(newValue)
-            if (response.httpCode == HttpURLConnection.HTTP_OK) {
-                productLiveData.postValue(response.body)
-                loading.value = false
-                _errorCode.value = null
-            } else {
-                Timber.e("$_errorCode code: ${response.httpCode}")
-                _errorCode.value = response.httpCode
-                loading.value = false
+        if(!isSuccess) {
+            viewModelScope.launch {
+                loading.value = true
+                val response = productRepository!!.getProductForName(newValue)
+                if (response.httpCode == HttpURLConnection.HTTP_OK) {
+                    productLiveData.postValue(response.body!!)
+                    loading.value = false
+                    _errorCode.value = null
+                    isSuccess = true
+                } else {
+                    Timber.e("$${response.errorMessage} code: ${response.httpCode}")
+                    _errorCode.value = response.httpCode
+                    loading.value = false
+                    isSuccess = true
+                }
             }
         }
     }
-
 
 }

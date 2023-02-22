@@ -7,12 +7,25 @@ import com.bumptech.glide.Glide
 import com.challenge.meli.data.model.Product
 import com.challenge.meli.databinding.ListItemSearchBinding
 
-class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val binding = ListItemSearchBinding.bind(view)
+class SearchViewHolder(
+    private val itemBinding: ListItemSearchBinding,
+    private val listener: SearchAdapter.SearchItemListener
+) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
+    private lateinit var product: Product
 
-    fun bind(item: Product, context: Context) {
-        Glide.with(context).load(item.thumbnail).circleCrop().into(binding.imageViewProduct)
-        binding.textViewTitle.text = item.title
+    init {
+        itemBinding.root.setOnClickListener(this)
+    }
+
+    fun bind(item: Product) {
+        this.product = item
+        Glide.with(itemBinding.root).load(item.thumbnail).circleCrop()
+            .into(itemBinding.imageViewProduct)
+        itemBinding.textViewTitle.text = item.title
+    }
+
+    override fun onClick(p0: View?) {
+        listener.onClickedProduct(product.title)
     }
 
 }

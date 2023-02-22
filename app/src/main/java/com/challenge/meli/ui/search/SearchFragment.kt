@@ -14,23 +14,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.challenge.meli.R
-import com.challenge.meli.data.model.Product
 import com.challenge.meli.databinding.FragmentSearchBinding
 import com.challenge.meli.ui.search.adapter.SearchAdapter
 import com.challenge.meli.utils.ViewHelper
-import com.challenge.meli.utils.recycler.RecyclerItemClickListener
 import com.challenge.meli.utils.recycler.RecyclerViewEmptyRetryGroup
 import java.util.*
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchAdapter.SearchItemListener {
 
-    //View
+    //View model and binding
     private var binding: FragmentSearchBinding? = null
     private val viewModel: SearchViewModel by viewModels()
 
     //List view
-    private var productList = mutableListOf<Product>()
-    private lateinit var adapterDate: SearchAdapter
+    private lateinit var adapter: SearchAdapter
 
 
     override fun onCreateView(
@@ -44,9 +41,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
         editTextSearch()
         setOnClickClearEditTextSearch()
-        initRecyclerView()
         setupObservers()
         onClickRetry()
     }
@@ -70,9 +67,7 @@ class SearchFragment : Fragment() {
         //Observe get list products
         viewModel.productLiveData.observe(viewLifecycleOwner) { dataResponse ->
             if (dataResponse!!.results.size > 0) {
-                productList.clear()
-                productList.addAll(dataResponse.results)
-                adapterDate.newItems(productList)
+                adapter.newItems(ArrayList(dataResponse.results))
                 binding!!.contentRecyclerView.rvGroup.success()
             } else {
                 val emptyData: String = getString(R.string.empty_data)
@@ -108,7 +103,7 @@ class SearchFragment : Fragment() {
     /**
      * go to next screen productFragment
      */
-    fun goToNextScreen(value: String) {
+    private fun goToNextScreen(value: String) {
         val bundle = bundleOf(Intent.EXTRA_TEXT to value)
         findNavController().navigate(R.id.action_searchFragment_to_nav_product, bundle)
     }
@@ -118,26 +113,9 @@ class SearchFragment : Fragment() {
      */
     @SuppressLint("SetTextI18n")
     private fun initRecyclerView() {
-        adapterDate = SearchAdapter(requireActivity())
-        adapterDate.newItems(productList)
+        adapter = SearchAdapter(this)
         binding!!.contentRecyclerView.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding!!.contentRecyclerView.recyclerView.adapter = adapterDate
-        binding!!.contentRecyclerView.recyclerView.addOnItemTouchListener(
-            RecyclerItemClickListener(
-                context,
-                binding!!.contentRecyclerView.recyclerView,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        // do whatever
-                        if (productList.size > 0)
-                            goToNextScreen(productList[position].title)
-                    }
-
-                    override fun onLongItemClick(view: View, position: Int) {
-                        // do whatever
-                    }
-                })
-        )
+        binding!!.contentRecyclerView.recyclerView.adapter = adapter
     }
 
     /**
@@ -191,6 +169,13 @@ class SearchFragment : Fragment() {
             ) {
             }
         })
+    }
+
+    /**
+     * Get title from on click item on recycler view
+     */
+    override fun onClickedProduct(title: String) {
+        goToNextScreen(title)
     }
 
 }

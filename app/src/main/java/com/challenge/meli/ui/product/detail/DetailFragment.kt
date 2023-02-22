@@ -13,7 +13,7 @@ import com.challenge.meli.ui.product.ProductViewModel
 
 class DetailFragment : Fragment() {
 
-    //View
+    //View model and binding
     private var binding: FragmentDetailBinding? = null
     // Child view model for this fragments
     private val detailViewModel: ProductViewModel by navGraphViewModels(R.id.nav_product)

@@ -7,6 +7,7 @@
     <string name="results">Results %s</string>
     <string name="sold_quantity">+ %s sold</string>
     <string name="available">%s available</string>
+    <string name="lbl_available">Available:</string>
     <string name="total">Total $ %s</string>
     <string name="installments">or %s x $ %s</string>
     <string name="brand">Brand: %s</string>
