@@ -95,7 +95,7 @@ class SearchFragment : Fragment(), SearchAdapter.SearchItemListener {
         binding!!.contentRecyclerView.rvGroup.setOnRetryClick(object :
             RecyclerViewEmptyRetryGroup.OnRetryClick {
             override fun onRetry() {
-                viewModel.getProducts(viewModel.oldTextSearch, true)
+                viewModel.getProducts(viewModel.oldTextSearch)
             }
         })
     }
@@ -149,7 +149,9 @@ class SearchFragment : Fragment(), SearchAdapter.SearchItemListener {
                             isTyping = false
                             val str = s.toString().trim()
                             if (str.length > 2) {
-                                viewModel.getProducts(str, false)
+                                if (viewModel.oldTextSearch != str) {
+                                    viewModel.getProducts(str)
+                                }
                             }
                         }
                     },

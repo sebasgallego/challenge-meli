@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.*
 import com.bumptech.glide.Glide
+import com.challenge.meli.domain.GetProductsUseCase
 import com.challenge.meli.data.ProductRepository
 import com.challenge.meli.data.model.*
 import com.challenge.meli.utils.NumberHelper
@@ -14,14 +15,17 @@ import java.net.HttpURLConnection
 class ProductViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     // Expose screen UI product
-    private var productRepository: ProductRepository? = null
+    var productRepository: ProductRepository? = null
+    var getProductsUseCase: GetProductsUseCase? = null
     val productLiveData = MutableLiveData<ProductResponse>()
     val errorCode: MutableLiveData<Int?> get() = _errorCode
     private val _errorCode = MutableLiveData<Int?>()
     val loading = MutableLiveData<Boolean>()
-    private  var isSuccess: Boolean = false
+    var isSuccess: Boolean = false
+
     //product
     val product: MutableLiveData<Product> = MutableLiveData()
+
     // Price of the product
     private val _price = MutableLiveData<Double>()
     val price: LiveData<String> = Transformations.map(_price) {
@@ -48,13 +52,14 @@ class ProductViewModel : ViewModel() {
      */
     init {
         productRepository = ProductRepository()
+        getProductsUseCase = GetProductsUseCase(productRepository!!)
         default()
     }
 
     /**
      * Default data
      */
-    private fun default(){
+    private fun default() {
         isSuccess = false
     }
 
@@ -70,21 +75,18 @@ class ProductViewModel : ViewModel() {
      * get products
      */
     fun getProducts(newValue: String) {
-        if(!isSuccess) {
-            viewModelScope.launch {
-                loading.value = true
-                val response = productRepository!!.getProductForName(newValue)
-                if (response.httpCode == HttpURLConnection.HTTP_OK) {
-                    productLiveData.postValue(response.body!!)
-                    loading.value = false
-                    _errorCode.value = null
-                    isSuccess = true
-                } else {
-                    Timber.e("$${response.errorMessage} code: ${response.httpCode}")
-                    _errorCode.value = response.httpCode
-                    loading.value = false
-                    isSuccess = true
-                }
+        viewModelScope.launch {
+            loading.value = true
+            val response = getProductsUseCase!!(newValue)
+            if (response!!.httpCode == HttpURLConnection.HTTP_OK) {
+                productLiveData.postValue(response.body!!)
+                loading.value = false
+                _errorCode.value = null
+                isSuccess = true
+            } else {
+                Timber.e("$${response.errorMessage} code: ${response.httpCode}")
+                _errorCode.value = response.httpCode
+                loading.value = false
             }
         }
     }

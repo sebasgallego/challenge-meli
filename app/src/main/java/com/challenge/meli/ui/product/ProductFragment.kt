@@ -106,7 +106,8 @@ class ProductFragment : Fragment(), ProductAdapter.ProductItemListener {
      */
     fun getDataArgs() {
         arguments?.getString(Intent.EXTRA_TEXT)?.let {
-            productViewModel.getProducts(it)
+            if (!productViewModel.isSuccess)
+                productViewModel.getProducts(it)
         }
     }
 
