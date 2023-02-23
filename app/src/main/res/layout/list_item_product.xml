@@ -84,7 +84,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/small_dimen"
                         android:textColor="@color/teal_200"
                         android:textSize="@dimen/small_text"
                         android:textStyle="bold"
@@ -94,7 +93,8 @@
                         android:id="@+id/textViewQuantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/small_dimen"
+                        android:paddingStart="@dimen/small_dimen"
+                        android:paddingEnd="@dimen/small_dimen"
                         android:textColor="@color/teal_200"
                         android:textSize="@dimen/small_text"
                         android:textStyle="bold" />
