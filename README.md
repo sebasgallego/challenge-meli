@@ -1,3 +1,4 @@
+
 # Challenge search app!!
 
 Aplicación android para buscar productos y ver su detalle, la información se carga desde las APIs que mercado libre tiene disponibles para la comunidad, desarrollada bajo la arquitectura MVVM que hace referencia a una forma de organizar el código de nuestra aplicación, mejora y facilita la intervención del código en caso de que se presente algún error o debamos realizarle mantenimiento al software.
@@ -15,7 +16,6 @@ Casos de uso:
 [![Screenshot-2023-02-20-at-9-48-16-PM.png](https://i.postimg.cc/4d2tb6J7/Screenshot-2023-02-20-at-9-48-16-PM.png)](https://postimg.cc/47tmXhHs)
 
 
-
 ## Estructura
 
 Se desarrollo bajo la arquitectura MVVM que se compone por tres capas:
@@ -26,7 +26,7 @@ Se desarrollo bajo la arquitectura MVVM que se compone por tres capas:
 
 - **ViewModel** Actúa como enlace entre el Modelo y la Vista. Es responsable de transformar los datos del Modelo. Proporciona flujos de datos a la vista. También usa ganchos o devoluciones de llamada para actualizar la Vista.
 
-[![Screenshot-2023-02-21-at-10-47-42-PM.png](https://i.postimg.cc/jjJWpDYm/Screenshot-2023-02-21-at-10-47-42-PM.png)](https://postimg.cc/yJsY9Ydy)
+[![Screenshot-2023-02-22-at-11-55-30-PM.png](https://i.postimg.cc/0Nnnj03B/Screenshot-2023-02-22-at-11-55-30-PM.png)](https://postimg.cc/jWWPkPRH)
 
 Construida con el componente navigation, que utiliza un gráfico de navegación para administrar el aspecto de la app:
 
