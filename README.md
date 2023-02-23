@@ -1,13 +1,14 @@
 # Challenge search app!!
 
-Aplicación para buscar productos y ver su detalle, oteniendo la información desde las APIs que mercado libre tiene disponibles para la comunidad, desarrollada bajo la arquitectura MVVM que hace referencia a una forma de organizar el código de nuestra aplicación, la cual mejora y facilita la intervención del código en caso de que se presente algún error o debamos realizarle mantenimiento al software.
+Aplicación android para buscar productos y ver su detalle, la información se carga desde las APIs que mercado libre tiene disponibles para la comunidad, desarrollada bajo la arquitectura MVVM que hace referencia a una forma de organizar el código de nuestra aplicación, mejora y facilita la intervención del código en caso de que se presente algún error o debamos realizarle mantenimiento al software.
  
 ## Funcionalidades
 
 La app cuenta con las siguientes funcionalidades:
  1. Campo de búsqueda. 
-2. Visualización de resultados de la búsqueda. 
-3. Detalle de un producto.
+ 2. Visualización breve de resultados de la búsqueda con imagen y titulo.
+2. Visualización de resultados de la búsqueda con mas detalle. 
+3. Detalle total del un producto. 
 
 Casos de uso:
 
@@ -15,26 +16,32 @@ Casos de uso:
 
 
 
-## Arquitectura MVVM
+## Estructura
 
+Se desarrollo bajo la arquitectura MVVM que se compone por tres capas:
 
-MVVM se compone por tres capas:
+- **Modelo** : contiene los datos de la aplicación. No puede hablar directamente con la vista. Generalmente, se recomienda exponer los datos a ViewModel a través de Observables.
 
--   **Modelo** : contiene los datos de la aplicación. No puede hablar directamente con la Vista. Generalmente, se recomienda exponer los datos a ViewModel a través de Observables.
--   **Vista** : representa la interfaz de usuario. Observa el ViewModel.
--   **ViewModel** : Actúa como enlace entre el Modelo y la Vista. Es responsable de transformar los datos del Modelo. Proporciona flujos de datos a la Vista. También usa ganchos o devoluciones de llamada para actualizar la Vista.
+- **Vista** : representa la interfaz de usuario. Observa el ViewModel.
+
+- **ViewModel** Actúa como enlace entre el Modelo y la Vista. Es responsable de transformar los datos del Modelo. Proporciona flujos de datos a la vista. También usa ganchos o devoluciones de llamada para actualizar la Vista.
 
 [![Screenshot-2023-02-21-at-10-47-42-PM.png](https://i.postimg.cc/jjJWpDYm/Screenshot-2023-02-21-at-10-47-42-PM.png)](https://postimg.cc/yJsY9Ydy)
 
+Construida con el componente navigation, que utiliza un gráfico de navegación para administrar el aspecto de la app:
+
+[![Screenshot-2023-02-23-at-12-04-22-AM.png](https://i.postimg.cc/sgQCpvym/Screenshot-2023-02-23-at-12-04-22-AM.png)](https://postimg.cc/CRg20MRn)
+
+ 
 ## Test
 
-Resultados de pruebas:
+Resultado de pruebas:
 
-[![Screenshot-2023-02-21-at-10-58-58-PM.png](https://i.postimg.cc/qRV9L5GS/Screenshot-2023-02-21-at-10-58-58-PM.png)](https://postimg.cc/KKfqcQwD)
+[![Screenshot-2023-02-22-at-11-39-05-PM.png](https://i.postimg.cc/R0gw5y1F/Screenshot-2023-02-22-at-11-39-05-PM.png)](https://postimg.cc/4KhYp8Sk)
 
 ## Firebase crashlytics
 
-Se implementa en el proyecto crashlytics para capturar los crash que tenga la app y poder tener una mayor información y control de los mismos, adicional de agrega Firebase.crashlytics.recordException(e) para obtener cualquier error inesperado que ocurra al obtener la información de APIs.
+Se implementa en el proyecto crashlytics para capturar los crash que tenga la app y poder tener una mayor información y control de los mismos, adicional se agrega Firebase.crashlytics.recordException(e) para obtener cualquier error inesperado que ocurra al obtener la información de las APIs.
 
 Ejemplo:
 
@@ -43,7 +50,7 @@ Ejemplo:
 
 ## Android Profiler
 
-Resultados de pruebas en Android Profiler que ayuda a identificar fugas y pérdidas de memoria que puedan generar inestabilidades, fallas e incluso bloqueos en la app:
+Resultado de pruebas en Android Profiler, que ayuda a identificar fugas y pérdidas de memoria que puedan generar inestabilidades, fallas e incluso bloqueos en la app:
 
 [![Screenshot-2023-02-21-at-2-33-43-PM.png](https://i.postimg.cc/bJwktCjf/Screenshot-2023-02-21-at-2-33-43-PM.png)](https://postimg.cc/sBbMFJXT)
 
@@ -54,4 +61,4 @@ Resultados de pruebas en Android Profiler que ayuda a identificar fugas y pérdi
 - Tipo de arquitectura utilizada.
 - Resultados test.
 - Firebase crashlytics.
--  Android Profiler
+-  Android Profiler.
