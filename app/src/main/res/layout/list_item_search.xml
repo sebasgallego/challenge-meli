@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="56dp"
+    android:padding="@dimen/small_dimen">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/small_dimen">
+    <ImageView
+        android:id="@+id/imageViewProduct"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/small_dimen"
+        tools:ignore="ContentDescription" />
 
-        <ImageView
-            android:id="@+id/imageViewProduct"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:padding="@dimen/small_dimen"
-            android:src="@android:drawable/ic_menu_recent_history" />
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center|start"
+        android:paddingStart="@dimen/medium_dimen"
+        android:paddingEnd="@dimen/medium_dimen" />
 
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:paddingLeft="@dimen/medium_dimen" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:padding="@dimen/small_dimen"
-            android:src="@drawable/share" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/small_dimen"
+        android:src="@drawable/share"
+        tools:ignore="ContentDescription" />
 
 </LinearLayout>

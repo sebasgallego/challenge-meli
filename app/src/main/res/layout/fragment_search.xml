@@ -33,6 +33,7 @@
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:padding="@dimen/small_dimen"
+                        tools:ignore="ContentDescription"
                         android:src="?android:attr/actionModeWebSearchDrawable" />
 
                     <EditText
@@ -42,6 +43,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/white"
                         android:ems="10"
+                        android:gravity="center|start"
                         android:autofillHints="username"
                         android:hint="@string/search"
                         android:inputType="textPersonName"
@@ -52,6 +54,7 @@
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
                         android:padding="@dimen/small_dimen"
+                        tools:ignore="ContentDescription"
                         android:src="@drawable/ic_close" />
 
                 </LinearLayout>
