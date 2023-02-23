@@ -85,8 +85,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/available(viewModel.product.soldQuantity)}"
-                    android:textColor="@color/blue"
+                    android:text="@{@string/available(viewModel.product.availableQuantity)}"
+                    android:textColor="@color/teal_200"
                     android:textStyle="bold" />
 
                 <TextView

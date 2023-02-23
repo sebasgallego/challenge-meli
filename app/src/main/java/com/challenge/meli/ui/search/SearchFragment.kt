@@ -135,7 +135,7 @@ class SearchFragment : Fragment(), SearchAdapter.SearchItemListener {
 
             var isTyping = false
             private var timer: Timer = Timer()
-            private val DELAY: Long = 250 // milliseconds
+            private val DELAY: Long = 200 // milliseconds
 
             override fun afterTextChanged(s: Editable) {
                 if (!isTyping) {
